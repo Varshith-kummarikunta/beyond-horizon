@@ -3,34 +3,38 @@
   inset: 0;
   z-index: 9999;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
   background: #050505;
 }
 
-.content {
-  width: min(90%, 700px);
-}
-
 .title {
-  overflow: hidden;
-  font-size: clamp(2.5rem, 8vw, 7rem);
+  font-size: clamp(3rem, 8vw, 8rem);
   font-weight: 900;
-  letter-spacing: -0.05em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-}
-
-.progressWrapper {
-  margin-top: 40px;
-  height: 2px;
-  width: 100%;
   overflow: hidden;
-  background: rgba(255,255,255,0.15);
 }
 
 .progress {
-  height:100%;
-  width:100%;
-  transform-origin:left;
-  background:white;
+  margin-top: 2rem;
+  width: min(320px, 80vw);
+  height: 3px;
+  background: rgba(255,255,255,.12);
+  overflow: hidden;
+  border-radius: 999px;
+}
+
+.bar {
+  width: 0;
+  height: 100%;
+  background: white;
+}
+
+.percent {
+  margin-top: 1rem;
+  color: #888;
+  letter-spacing: .3em;
+  font-size: .8rem;
 }

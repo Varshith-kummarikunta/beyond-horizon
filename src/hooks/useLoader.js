@@ -1,29 +1,34 @@
 import { useEffect, useState } from "react";
+import { animateLoader } from "../animations/loader";
 
-export default function useLoader(duration = 2200) {
+export default function useLoader() {
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    let value = 0;
+    let current = 0;
 
-    const interval = setInterval(() => {
-      value += Math.floor(Math.random() * 5) + 1;
+    const timer = setInterval(() => {
+      current += 1;
+      setProgress(current);
 
-      if (value >= 100) {
-        value = 100;
-        clearInterval(interval);
-
-        setTimeout(() => {
-          setLoading(false);
-        }, 300);
+      if (current >= 100) {
+        clearInterval(timer);
       }
+    }, 20);
 
-      setProgress(value);
-    }, duration / 100);
+    const tl = animateLoader(() => {
+      setLoading(false);
+    });
 
-    return () => clearInterval(interval);
-  }, [duration]);
+    return () => {
+      clearInterval(timer);
+      tl?.kill();
+    };
+  }, []);
 
-  return { loading, progress };
+  return {
+    loading,
+    progress,
+  };
 }

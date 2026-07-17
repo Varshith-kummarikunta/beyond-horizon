@@ -1,40 +1,31 @@
-import { useState } from "react";
-
+import { useEffect } from "react";
 import Layout from "../components/Layout/Layout";
 import Loader from "../components/effects/Loader";
+import useLoader from "../hooks/useLoader";
+import useBodyLock from "../hooks/useBodyLock";
 
+export default function Home() {
+  const { loading, progress } = useLoader();
 
-export default function Home(){
+  useBodyLock(loading);
 
-  const [loading,setLoading] = useState(true);
+  useEffect(() => {
+    if (!loading) {
+      document.body.style.overflow = "";
+    }
+  }, [loading]);
 
-
-  return(
+  return (
     <>
+      {loading && <Loader progress={progress} />}
 
-      {loading && (
-        <Loader
-          onComplete={() => setLoading(false)}
-        />
-      )}
-
-
-      {!loading && (
-
-        <Layout>
-
-          <main className="flex min-h-screen items-center justify-center">
-
-            <h1 className="text-5xl font-black md:text-8xl">
-              Beyond Horizon
-            </h1>
-
-          </main>
-
-        </Layout>
-
-      )}
-
+      <Layout>
+        <main className="flex min-h-screen items-center justify-center">
+          <h1 className="text-6xl font-black tracking-tight md:text-8xl">
+            Beyond Horizon
+          </h1>
+        </main>
+      </Layout>
     </>
   );
 }
