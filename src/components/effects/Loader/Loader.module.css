@@ -1,0 +1,36 @@
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #050505;
+}
+
+.content {
+  width: min(90%, 700px);
+}
+
+.title {
+  overflow: hidden;
+  font-size: clamp(2.5rem, 8vw, 7rem);
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+}
+
+.progressWrapper {
+  margin-top: 40px;
+  height: 2px;
+  width: 100%;
+  overflow: hidden;
+  background: rgba(255,255,255,0.15);
+}
+
+.progress {
+  height:100%;
+  width:100%;
+  transform-origin:left;
+  background:white;
+}
