@@ -8,12 +8,12 @@ export default function Loader({ progress }) {
       </h1>
 
       <div className={styles.progress}>
-        <div id="loader-bar" className={styles.bar} />
+        <div id="loader-bar" className={styles.bar}></div>
       </div>
 
-      <div className={styles.percent}>
+      <span id="loader-percent" className={styles.percent}>
         {progress}%
-      </div>
+      </span>
     </div>
   );
 }
