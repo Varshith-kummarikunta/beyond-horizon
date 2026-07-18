@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
+import CustomCursor from "./components/effects/CustomCursor/CustomCursor";
 import Home from "./pages/Home";
 
 export default function App() {
@@ -49,5 +50,10 @@ export default function App() {
     };
   }, []);
 
-  return <Home />;
+  return (
+    <>
+      <CustomCursor />
+      <Home />
+    </>
+  );
 }
