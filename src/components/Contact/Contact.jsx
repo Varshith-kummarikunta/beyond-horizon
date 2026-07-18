@@ -1,11 +1,12 @@
 import { useLayoutEffect, useRef } from "react";
 import SplitType from "split-type";
 import { gsap } from "../../animations/gsap";
+import { site } from "../../data/site";
 
 const contactDetails = [
-  ["Email", "varshith@example.com", "mailto:varshith@example.com"],
-  ["Location", "Hyderabad, India"],
-  ["Availability", "Open to opportunities"],
+  { label: "Email", value: site.personal.email, href: `mailto:${site.personal.email}` },
+  { label: "Location", value: site.personal.location },
+  { label: "Availability", value: site.contact.availability },
 ];
 
 export default function Contact() {
@@ -16,16 +17,9 @@ export default function Contact() {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (reducedMotion.matches) return undefined;
 
-    const split = new SplitType(
-      headingRef.current.querySelectorAll(".contact__title-line"),
-      { types: "chars" }
-    );
+    const split = new SplitType(headingRef.current.querySelectorAll(".contact__title-line"), { types: "chars" });
     const context = gsap.context(() => {
-      gsap
-        .timeline({
-          defaults: { ease: "power4.out" },
-          scrollTrigger: { trigger: sectionRef.current, start: "top 72%" },
-        })
+      gsap.timeline({ defaults: { ease: "power4.out" }, scrollTrigger: { trigger: sectionRef.current, start: "top 72%" } })
         .from(".contact__eyebrow", { autoAlpha: 0, y: 16, duration: 0.55 })
         .from(split.chars, { autoAlpha: 0, yPercent: 110, duration: 0.7, stagger: 0.014 }, "-=0.2")
         .from(".contact__description", { autoAlpha: 0, y: 18, duration: 0.6 }, "-=0.35")
@@ -33,10 +27,7 @@ export default function Contact() {
         .from(".contact__actions > *", { autoAlpha: 0, y: 14, duration: 0.5, stagger: 0.1 }, "-=0.25");
     }, sectionRef);
 
-    return () => {
-      context.revert();
-      split.revert();
-    };
+    return () => { context.revert(); split.revert(); };
   }, []);
 
   return (
@@ -44,19 +35,16 @@ export default function Contact() {
       <div className="contact__atmosphere" aria-hidden="true"><span /></div>
       <div className="contact__content">
         <header className="contact__intro">
-          <p className="contact__eyebrow">Contact</p>
-          <h2 id="contact-title" ref={headingRef} className="contact__title" aria-label="Let's build something remarkable.">
-            <span className="contact__title-line">Let&apos;s build</span>
-            <span className="contact__title-line contact__title-line--accent">something remarkable.</span>
+          <p className="contact__eyebrow">{site.contact.eyebrow}</p>
+          <h2 id="contact-title" ref={headingRef} className="contact__title" aria-label={site.contact.titleLines.join(" ")}>
+            <span className="contact__title-line">{site.contact.titleLines[0]}</span>
+            <span className="contact__title-line contact__title-line--accent">{site.contact.titleLines[1]}</span>
           </h2>
-          <p className="contact__description">
-            Whether it&apos;s a freelance project, a full-time opportunity, or simply a conversation
-            about technology and design, I&apos;d love to hear from you.
-          </p>
+          <p className="contact__description">{site.contact.description}</p>
         </header>
 
         <dl className="contact__cards">
-          {contactDetails.map(([label, value, href]) => (
+          {contactDetails.map(({ label, value, href }) => (
             <div key={label} className="contact__card">
               <dt>{label}</dt>
               <dd>{href ? <a href={href}>{value}</a> : value}</dd>
@@ -66,8 +54,8 @@ export default function Contact() {
       </div>
 
       <div className="contact__actions">
-        <a className="contact__button contact__button--primary" href="mailto:varshith@example.com">Send Email <span aria-hidden="true">↗</span></a>
-        <button className="contact__button contact__button--secondary" type="button">Download Resume <span aria-hidden="true">↓</span></button>
+        <a className="contact__button contact__button--primary" href={`mailto:${site.personal.email}`}>{site.contact.sendEmailLabel} <span aria-hidden="true">↗</span></a>
+        <button className="contact__button contact__button--secondary" type="button" onClick={() => window.open(site.personal.resumeUrl, "_blank", "noopener,noreferrer")}>{site.contact.downloadResumeLabel} <span aria-hidden="true">↓</span></button>
       </div>
     </section>
   );

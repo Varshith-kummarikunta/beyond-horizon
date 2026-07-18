@@ -1,12 +1,7 @@
 import { useLayoutEffect, useRef } from "react";
 import SplitType from "split-type";
 import { gsap } from "../../animations/gsap";
-
-const categories = [
-  ["Frontend", ["React", "JavaScript", "HTML5", "CSS3", "Tailwind CSS", "Framer Motion"]],
-  ["Backend", ["Node.js", "Express.js", "MongoDB", "REST APIs"]],
-  ["Tools", ["Git", "GitHub", "VS Code", "Vite", "GSAP", "Figma"]],
-];
+import { site } from "../../data/site";
 
 export default function Skills() {
   const sectionRef = useRef(null);
@@ -63,19 +58,16 @@ export default function Skills() {
       </div>
 
       <header className="skills__intro">
-        <p className="skills__eyebrow">Skills</p>
-        <h2 id="skills-title" ref={headingRef} className="skills__title" aria-label="Technologies I work with.">
-          <span className="skills__title-line">Technologies</span>
-          <span className="skills__title-line skills__title-line--accent">I work with.</span>
+        <p className="skills__eyebrow">{site.skills.eyebrow}</p>
+        <h2 id="skills-title" ref={headingRef} className="skills__title" aria-label={site.skills.titleLines.join(" ")}>
+          <span className="skills__title-line">{site.skills.titleLines[0]}</span>
+          <span className="skills__title-line skills__title-line--accent">{site.skills.titleLines[1]}</span>
         </h2>
-        <p className="skills__description">
-          I build scalable, performant web applications using modern frontend and backend
-          technologies while focusing on clean architecture and exceptional user experience.
-        </p>
+        <p className="skills__description">{site.skills.description}</p>
       </header>
 
       <div className="skills__grid">
-        {categories.map(([title, technologies]) => (
+        {site.skills.categories.map(({ title, technologies }) => (
           <article key={title} className="skills__card">
             <h3>{title}</h3>
             <ul className="skills__chips">

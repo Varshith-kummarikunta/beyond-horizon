@@ -1,5 +1,6 @@
 ﻿import { useEffect, useRef } from "react";
 import { gsap } from "../../../animations/gsap";
+import { site } from "../../../data/site";
 import styles from "./Loader.module.css";
 
 export default function Loader({ progress, onExitComplete }) {
@@ -75,10 +76,10 @@ export default function Loader({ progress, onExitComplete }) {
       aria-live="polite"
     >
       <div className={styles.content}>
-        <span className={styles.tag}>PORTFOLIO 2026</span>
+        <span className={styles.tag}>{site.loader.label}</span>
 
         <h1 ref={titleRef} className={styles.title}>
-          Beyond Horizon
+          {site.personal.name}
         </h1>
 
         <div

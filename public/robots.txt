@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://beyondhorizon.dev/sitemap.xml

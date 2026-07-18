@@ -1,23 +1,16 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
-
-const links = [
-  ["Home", "home"],
-  ["About", "about"],
-  ["Journey", "journey"],
-  ["Skills", "skills"],
-  ["Projects", "projects"],
-  ["Travel", "travel"],
-  ["Contact", "contact"],
-];
+import { site } from "../../data/site";
 
 export default function Navigation() {
   const [activeSection, setActiveSection] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
+  const reducedMotion = useReducedMotion();
+  const menuTransition = { duration: reducedMotion ? 0 : 0.24, ease: "easeOut" };
 
   useEffect(() => {
-    const sections = links
-      .map(([, id]) => document.getElementById(id))
+    const sections = site.navigation
+      .map(({ id }) => document.getElementById(id))
       .filter(Boolean);
 
     const observer = new IntersectionObserver(
@@ -54,11 +47,11 @@ export default function Navigation() {
     <header className="site-nav">
       <nav className="site-nav__inner" aria-label="Primary navigation">
         <a className="site-nav__brand" href="#home" onClick={navigateTo("home")}>
-          Beyond Horizon
+          {site.personal.name}
         </a>
 
         <div className="site-nav__links">
-          {links.map(([label, id]) => (
+          {site.navigation.map(({ label, id }) => (
             <a
               key={id}
               className="site-nav__link"
@@ -96,19 +89,19 @@ export default function Navigation() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: reducedMotion ? 0 : 0.2 }}
               onClick={() => setMenuOpen(false)}
             />
             <motion.nav
               id="mobile-navigation"
               className="site-nav__mobile-menu"
               aria-label="Mobile navigation"
-              initial={{ opacity: 0, y: -16 }}
+              initial={{ opacity: 0, y: reducedMotion ? 0 : -16 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -16 }}
-              transition={{ duration: 0.24, ease: "easeOut" }}
+              exit={{ opacity: 0, y: reducedMotion ? 0 : -16 }}
+              transition={menuTransition}
             >
-              {links.map(([label, id]) => (
+              {site.navigation.map(({ label, id }) => (
                 <a
                   key={id}
                   className="site-nav__mobile-link"

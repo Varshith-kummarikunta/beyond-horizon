@@ -1,4 +1,5 @@
-﻿import Layout from "../components/Layout/Layout";
+import { lazy, Suspense } from "react";
+import Layout from "../components/Layout/Layout";
 import Loader from "../components/effects/Loader";
 import useLoader from "../hooks/useLoader";
 import useBodyLock from "../hooks/useBodyLock";
@@ -7,13 +8,14 @@ import Hero from "../components/Hero/Hero";
 import About from "../components/About/About";
 import Journey from "../components/Journey/Journey";
 import Skills from "../components/Skills/Skills";
-import Projects from "../components/Projects/Projects";
-import Travel from "../components/Travel/Travel";
-import Contact from "../components/Contact/Contact";
-import Footer from "../components/Footer/Footer";
 
-const sections = [
-];
+const Projects = lazy(() => import("../components/Projects/Projects"));
+const Travel = lazy(() => import("../components/Travel/Travel"));
+const ArtGallery = lazy(() => import("../components/ArtGallery/ArtGallery"));
+const Contact = lazy(() => import("../components/Contact/Contact"));
+const Footer = lazy(() => import("../components/Footer/Footer"));
+
+const sections = [];
 
 export default function Home() {
   const { loading, progress, finishLoading } = useLoader();
@@ -32,9 +34,12 @@ export default function Home() {
             <About />
             <Journey />
             <Skills />
-            <Projects />
-            <Travel />
-            <Contact />
+            <Suspense fallback={null}>
+              <Projects />
+              <Travel />
+              <ArtGallery />
+              <Contact />
+            </Suspense>
             {sections.map(([title, id], index) => (
               <section key={id} id={id} className="nav-page-section">
                 <p className="nav-page-section__eyebrow">0{index + 1}</p>
@@ -42,7 +47,9 @@ export default function Home() {
               </section>
             ))}
           </main>
-          <Footer />
+          <Suspense fallback={null}>
+            <Footer />
+          </Suspense>
         </Layout>
       )}
     </>

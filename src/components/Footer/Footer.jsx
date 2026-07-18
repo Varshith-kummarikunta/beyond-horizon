@@ -1,8 +1,6 @@
 import { useLayoutEffect, useRef } from "react";
 import { gsap } from "../../animations/gsap";
-
-const navigation = [["Home", "home"], ["About", "about"], ["Journey", "journey"], ["Skills", "skills"], ["Projects", "projects"], ["Travel", "travel"], ["Contact", "contact"]];
-const socialLinks = [["GitHub", "https://github.com/"], ["LinkedIn", "https://www.linkedin.com/"], ["Instagram", "https://www.instagram.com/"]];
+import { site } from "../../data/site";
 
 export default function Footer() {
   const footerRef = useRef(null);
@@ -32,20 +30,20 @@ export default function Footer() {
       <div className="footer__divider" aria-hidden="true"><span /></div>
       <div className="footer__content">
         <div className="footer__identity">
-          <a className="footer__brand" href="#home" onClick={navigateTo("home")}>Beyond Horizon</a>
-          <p className="footer__tagline">Crafting immersive digital experiences through code, design, and storytelling.</p>
+          <a className="footer__brand" href="#home" onClick={navigateTo("home")}>{site.personal.name}</a>
+          <p className="footer__tagline">{site.personal.tagline}</p>
         </div>
         <nav className="footer__navigation" aria-label="Footer navigation">
-          {navigation.map(([label, id]) => <a key={id} className="footer__nav-link" href={`#${id}`} onClick={navigateTo(id)}>{label}</a>)}
+          {site.navigation.map(({ label, id }) => <a key={id} className="footer__nav-link" href={`#${id}`} onClick={navigateTo(id)}>{label}</a>)}
         </nav>
         <nav className="footer__socials" aria-label="Social links">
-          {socialLinks.map(([label, href]) => <a key={label} className="footer__social-link" href={href} rel="noreferrer">{label}</a>)}
+          {site.social.filter(({ label }) => label !== "Portfolio").map(({ label, url }) => <a key={label} className="footer__social-link" href={url} rel="noreferrer">{label}</a>)}
         </nav>
         <div className="footer__bottom">
-          <p>© 2026 Beyond Horizon. All rights reserved.</p>
-          <p className="footer__built">Built with <span>React</span><span>GSAP</span><span>Framer Motion</span><span>Lenis</span><span>Three.js</span></p>
+          <p>{site.footer.copyright}</p>
+          <p className="footer__built">Built with {site.footer.stack.map((item) => <span key={item}>{item}</span>)}</p>
         </div>
-        <button className="footer__top" type="button" onClick={navigateTo("home")}>Back to top <span aria-hidden="true">↑</span></button>
+        <button className="footer__top" type="button" onClick={navigateTo("home")}>{site.footer.backToTopLabel} <span aria-hidden="true">↑</span></button>
       </div>
     </footer>
   );

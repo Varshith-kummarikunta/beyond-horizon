@@ -1,12 +1,6 @@
 import { useLayoutEffect, useRef } from "react";
 import { gsap } from "../../animations/gsap";
-
-const milestones = [
-  ["2021", "Started B.Tech in Computer Science."],
-  ["2023", "Discovered React and modern frontend development."],
-  ["2024", "Built multiple MERN stack projects and explored UI/UX."],
-  ["2025", "Graduated and focused on creating premium web experiences."],
-];
+import { site } from "../../data/site";
 
 export default function Journey() {
   const sectionRef = useRef(null);
@@ -77,14 +71,14 @@ export default function Journey() {
       </div>
 
       <header className="journey__intro">
-        <p className="journey__eyebrow">Journey</p>
-        <h2 id="journey-title">Every step shaped<br />who I am today.</h2>
+        <p className="journey__eyebrow">{site.journey.eyebrow}</p>
+        <h2 id="journey-title">{site.journey.titleLines[0]}<br />{site.journey.titleLines[1]}</h2>
       </header>
 
       <div className="journey__timeline">
         <span ref={lineRef} className="journey__line" aria-hidden="true" />
         <ol className="journey__list">
-          {milestones.map(([year, description], index) => (
+          {site.timeline.map(({ year, description }, index) => (
             <li key={year} className={`journey__item journey__item--${index % 2 === 0 ? "left" : "right"}`}>
               <article className="journey__card">
                 <time dateTime={year} className="journey__year">{year}</time>

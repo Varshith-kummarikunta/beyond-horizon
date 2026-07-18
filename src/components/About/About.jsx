@@ -1,12 +1,7 @@
 import { useLayoutEffect, useRef } from "react";
 import SplitType from "split-type";
 import { gsap } from "../../animations/gsap";
-
-const statistics = [
-  ["01+", "Years Learning"],
-  ["20+", "Projects Built"],
-  ["100%", "Passion"],
-];
+import { site } from "../../data/site";
 
 export default function About() {
   const sectionRef = useRef(null);
@@ -77,21 +72,16 @@ export default function About() {
 
       <div className="about__content">
         <div className="about__copy">
-          <p className="about__eyebrow">About</p>
-          <h2 id="about-title" ref={headingRef} className="about__title" aria-label="Creating digital experiences that feel alive.">
-            <span className="about__title-line">Creating digital experiences</span>
-            <span className="about__title-line about__title-line--accent">that feel alive.</span>
+          <p className="about__eyebrow">{site.about.eyebrow}</p>
+          <h2 id="about-title" ref={headingRef} className="about__title" aria-label={site.about.titleLines.join(" ")}>
+            <span className="about__title-line">{site.about.titleLines[0]}</span>
+            <span className="about__title-line about__title-line--accent">{site.about.titleLines[1]}</span>
           </h2>
-          <p className="about__description">
-            I am a Full Stack Developer focused on building immersive web experiences using React,
-            modern frontend technologies, smooth interactions, and thoughtful user experience. I
-            enjoy blending design and engineering to create interfaces that are both beautiful and
-            highly performant.
-          </p>
+          <p className="about__description">{site.personal.bio}</p>
         </div>
 
         <div className="about__statistics" aria-label="Experience statistics">
-          {statistics.map(([value, label], index) => (
+          {site.about.statistics.map(({ value, label }, index) => (
             <article
               key={label}
               className={`about__stat-card about__stat-card--${index + 1}`}

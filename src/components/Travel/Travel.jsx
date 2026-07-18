@@ -1,15 +1,7 @@
 import { useLayoutEffect, useRef } from "react";
 import SplitType from "split-type";
 import { gsap } from "../../animations/gsap";
-
-const destinations = [
-  ["Kedarkantha Trek", "Snow mountains", "large"],
-  ["Rishikesh", "Adventure & Ganga", "portrait"],
-  ["Agra", "Timeless architecture", "portrait"],
-  ["Delhi", "City exploration", "wide"],
-  ["Hyderabad", "Home", "small"],
-  ["Future Adventures", "Coming soon", "future"],
-];
+import { site } from "../../data/site";
 
 export default function Travel() {
   const sectionRef = useRef(null);
@@ -58,22 +50,25 @@ export default function Travel() {
     <section id="travel" ref={sectionRef} className="travel" aria-labelledby="travel-title">
       <div className="travel__atmosphere" aria-hidden="true"><span /></div>
       <header className="travel__intro">
-        <p className="travel__eyebrow">Travel</p>
-        <h2 id="travel-title" ref={headingRef} className="travel__title" aria-label="Every destination changed my perspective.">
-          <span className="travel__title-line">Every destination</span>
-          <span className="travel__title-line travel__title-line--accent">changed my perspective.</span>
+        <p className="travel__eyebrow">{site.travelIntro.eyebrow}</p>
+        <h2 id="travel-title" ref={headingRef} className="travel__title" aria-label={site.travelIntro.titleLines.join(" ")}>
+          <span className="travel__title-line">{site.travelIntro.titleLines[0]}</span>
+          <span className="travel__title-line travel__title-line--accent">{site.travelIntro.titleLines[1]}</span>
         </h2>
-        <p className="travel__description">
-          Travel inspires the way I design and build digital experiences. Every journey teaches
-          simplicity, balance, storytelling, and curiosity.
-        </p>
+        <p className="travel__description">{site.travelIntro.description}</p>
       </header>
 
       <div className="travel__gallery">
-        {destinations.map(([location, subtitle, variant]) => (
+        {site.travel.map(({ location, subtitle, imagePath, variant }) => (
           <article key={location} className={`travel__card travel__card--${variant}`}>
             <div className="travel__media" aria-hidden="true">
-              <span className="travel__image" />
+              <img
+                className="travel__image"
+                src={imagePath}
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
               <span className="travel__terrain" />
               <span className="travel__shade" />
             </div>

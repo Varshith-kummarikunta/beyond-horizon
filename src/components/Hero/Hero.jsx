@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from "react";
 import SplitType from "split-type";
 import { gsap } from "../../animations/gsap";
+import { site } from "../../data/site";
 
 const HeroScene = lazy(() => import("./HeroScene"));
 
@@ -85,26 +86,23 @@ export default function Hero() {
       )}
 
       <div className="hero__content">
-        <p className="hero__eyebrow">Full Stack Developer</p>
-        <h1 id="hero-title" ref={headingRef} className="hero__title" aria-label="Beyond the Code, Beyond the Horizon.">
-          <span className="hero__title-line">Beyond the Code,</span>
-          <span className="hero__title-line hero__title-line--accent">Beyond the Horizon.</span>
+        <p className="hero__eyebrow">{site.personal.title}</p>
+        <h1 id="hero-title" ref={headingRef} className="hero__title" aria-label={site.hero.titleLines.join(" ")}>
+          <span className="hero__title-line">{site.hero.titleLines[0]}</span>
+          <span className="hero__title-line hero__title-line--accent">{site.hero.titleLines[1]}</span>
         </h1>
-        <p className="hero__description">
-          I craft immersive digital experiences with React, modern web technologies,
-          and cinematic interactions.
-        </p>
+        <p className="hero__description">{site.hero.description}</p>
         <div className="hero__actions">
-          <a className="hero__button hero__button--primary" href="#projects" onClick={navigateTo("projects")}>
-            Explore Work
+          <a className="hero__button hero__button--primary" href={`#${site.hero.primaryAction.target}`} onClick={navigateTo(site.hero.primaryAction.target)}>
+            {site.hero.primaryAction.label}
           </a>
-          <a className="hero__button hero__button--secondary" href="#contact" onClick={navigateTo("contact")}>
-            Contact Me
+          <a className="hero__button hero__button--secondary" href={`#${site.hero.secondaryAction.target}`} onClick={navigateTo(site.hero.secondaryAction.target)}>
+            {site.hero.secondaryAction.label}
           </a>
         </div>
       </div>
 
-      <p className="hero__meta" aria-hidden="true">Scroll to explore <span /></p>
+      <p className="hero__meta" aria-hidden="true">{site.hero.scrollLabel} <span /></p>
     </section>
   );
 }
