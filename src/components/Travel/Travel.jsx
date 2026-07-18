@@ -1,68 +1,74 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { lazy, memo, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import SplitType from "split-type";
 import { gsap } from "../../animations/gsap";
-import GalleryViewer from "../GalleryViewer/GalleryViewer";
 import { site } from "../../data/site";
 
-export default function Travel() {
+const GalleryViewer = lazy(() => import("../GalleryViewer/GalleryViewer"));
+
+function Travel() {
   const sectionRef = useRef(null);
   const headingRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(null);
 
-  const viewerItems = site.travel.map(({ location, subtitle, imagePath }) => ({
-    src: imagePath,
-    alt: `${location} travel photograph`,
-    title: location,
-    category: "Travel",
-    description: subtitle,
-  }));
+  const viewerItems = useMemo(
+    () =>
+      site.travel.map(({ location, subtitle, imagePath }) => ({
+        src: imagePath,
+        alt: `${location} travel photograph`,
+        title: location,
+        category: "Travel",
+        description: subtitle,
+      })),
+    []
+  );
 
-  const openViewer = (index) => setActiveIndex(index);
-  const closeViewer = () => setActiveIndex(null);
-  const onPrevious = () => {
+  const openViewer = useCallback((index) => setActiveIndex(index), []);
+  const closeViewer = useCallback(() => setActiveIndex(null), []);
+  const onPrevious = useCallback(() => {
     setActiveIndex((current) => (current === null ? 0 : current === 0 ? viewerItems.length - 1 : current - 1));
-  };
-  const onNext = () => {
+  }, [viewerItems.length]);
+  const onNext = useCallback(() => {
     setActiveIndex((current) => (current === null ? 0 : current === viewerItems.length - 1 ? 0 : current + 1));
-  };
+  }, [viewerItems.length]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (reducedMotion.matches) return undefined;
 
-    const split = new SplitType(
-      headingRef.current.querySelectorAll(".travel__title-line"),
-      { types: "chars" }
-    );
-    const context = gsap.context(() => {
-      gsap
-        .timeline({
-          defaults: { ease: "power4.out" },
-          scrollTrigger: { trigger: sectionRef.current, start: "top 72%" },
-        })
-        .from(".travel__eyebrow", { autoAlpha: 0, y: 16, duration: 0.55 })
-        .from(split.chars, { autoAlpha: 0, yPercent: 110, duration: 0.7, stagger: 0.014 }, "-=0.2")
-        .from(".travel__description", { autoAlpha: 0, y: 18, duration: 0.6 }, "-=0.35")
-        .from(".travel__card", { autoAlpha: 0, y: 28, duration: 0.65, stagger: 0.1 }, "-=0.2");
+    const frameId = window.requestAnimationFrame(() => {
+      const split = new SplitType(headingRef.current?.querySelectorAll(".travel__title-line") ?? [], { types: "chars" });
+      const context = gsap.context(() => {
+        gsap
+          .timeline({
+            defaults: { ease: "power4.out" },
+            scrollTrigger: { trigger: sectionRef.current, start: "top 72%" },
+          })
+          .from(".travel__eyebrow", { autoAlpha: 0, y: 16, duration: 0.55 })
+          .from(split.chars, { autoAlpha: 0, yPercent: 110, duration: 0.7, stagger: 0.014 }, "-=0.2")
+          .from(".travel__description", { autoAlpha: 0, y: 18, duration: 0.6 }, "-=0.35")
+          .from(".travel__card", { autoAlpha: 0, y: 28, duration: 0.65, stagger: 0.1 }, "-=0.2");
 
-      gsap.utils.toArray(".travel__image").forEach((image, index) => {
-        gsap.to(image, {
-          yPercent: index % 2 === 0 ? -8 : 8,
-          ease: "none",
-          scrollTrigger: {
-            trigger: image.closest(".travel__card"),
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 0.7,
-          },
+        gsap.utils.toArray(".travel__image").forEach((image, index) => {
+          gsap.to(image, {
+            yPercent: index % 2 === 0 ? -8 : 8,
+            ease: "none",
+            scrollTrigger: {
+              trigger: image.closest(".travel__card"),
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 0.7,
+            },
+          });
         });
-      });
-    }, sectionRef);
+      }, sectionRef);
 
-    return () => {
-      context.revert();
-      split.revert();
-    };
+      return () => {
+        context.revert();
+        split.revert();
+      };
+    });
+
+    return () => window.cancelAnimationFrame(frameId);
   }, []);
 
   return (
@@ -107,15 +113,19 @@ export default function Travel() {
       </div>
 
       {activeIndex !== null && (
-        <GalleryViewer
-          items={viewerItems}
-          index={activeIndex}
-          onClose={closeViewer}
-          onPrevious={onPrevious}
-          onNext={onNext}
-          label="Travel gallery viewer"
-        />
+        <Suspense fallback={null}>
+          <GalleryViewer
+            items={viewerItems}
+            index={activeIndex}
+            onClose={closeViewer}
+            onPrevious={onPrevious}
+            onNext={onNext}
+            label="Travel gallery viewer"
+          />
+        </Suspense>
       )}
     </section>
   );
 }
+
+export default memo(Travel);

@@ -1,33 +1,45 @@
-import { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { lazy, memo, Suspense, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import SplitType from "split-type";
 import { gsap } from "../../animations/gsap";
 import { site } from "../../data/site";
 
 const HeroScene = lazy(() => import("./HeroScene"));
 
-export default function Hero() {
+function Hero() {
   const heroRef = useRef(null);
   const headingRef = useRef(null);
   const [reducedMotion, setReducedMotion] = useState(() =>
     window.matchMedia("(prefers-reduced-motion: reduce)").matches
   );
+  const [showHeroScene, setShowHeroScene] = useState(false);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const syncPreference = () => setReducedMotion(mediaQuery.matches);
 
+    syncPreference();
     mediaQuery.addEventListener("change", syncPreference);
-    return () => mediaQuery.removeEventListener("change", syncPreference);
+
+    const startScene = () => setShowHeroScene(true);
+    const frameId = window.requestAnimationFrame(() => {
+      if (typeof window.requestIdleCallback === "function") {
+        window.requestIdleCallback(startScene, { timeout: 1000 });
+      } else {
+        window.setTimeout(startScene, 150);
+      }
+    });
+
+    return () => {
+      mediaQuery.removeEventListener("change", syncPreference);
+      window.cancelAnimationFrame(frameId);
+    };
   }, []);
 
   useLayoutEffect(() => {
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (reducedMotion.matches) return undefined;
+    const reducedMotionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (reducedMotionPreference.matches) return undefined;
 
-    const split = new SplitType(
-      headingRef.current.querySelectorAll(".hero__title-line"),
-      { types: "chars" }
-    );
+    const split = new SplitType(headingRef.current?.querySelectorAll(".hero__title-line") ?? [], { types: "chars" });
     const context = gsap.context(() => {
       gsap
         .timeline({ defaults: { ease: "power4.out" } })
@@ -60,10 +72,10 @@ export default function Hero() {
     };
   }, []);
 
-  const navigateTo = (id) => (event) => {
+  const navigateTo = useCallback((id) => (event) => {
     event.preventDefault();
     window.dispatchEvent(new CustomEvent("lenis-scroll-to", { detail: { id } }));
-  };
+  }, []);
 
   return (
     <section id="home" ref={heroRef} className="hero" aria-labelledby="hero-title">
@@ -79,7 +91,7 @@ export default function Hero() {
         </div>
       </div>
 
-      {!reducedMotion && (
+      {!reducedMotion && showHeroScene && (
         <Suspense fallback={null}>
           <HeroScene />
         </Suspense>
@@ -106,3 +118,5 @@ export default function Hero() {
     </section>
   );
 }
+
+export default memo(Hero);

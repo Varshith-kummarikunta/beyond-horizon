@@ -1,32 +1,36 @@
-import { useLayoutEffect, useRef } from "react";
+import { memo, useEffect, useRef } from "react";
 import SplitType from "split-type";
 import { gsap } from "../../animations/gsap";
 import { site } from "../../data/site";
 
-export default function Projects() {
+function Projects() {
   const sectionRef = useRef(null);
   const headingRef = useRef(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (reducedMotion.matches) return undefined;
 
-    const split = new SplitType(
-      headingRef.current.querySelectorAll(".projects__title-line"),
-      { types: "chars" }
-    );
-    const context = gsap.context(() => {
-      gsap.timeline({ defaults: { ease: "power4.out" }, scrollTrigger: { trigger: sectionRef.current, start: "top 72%" } })
-        .from(".projects__eyebrow", { autoAlpha: 0, y: 16, duration: 0.55 })
-        .from(split.chars, { autoAlpha: 0, yPercent: 110, duration: 0.7, stagger: 0.014 }, "-=0.2")
-        .from(".projects__description", { autoAlpha: 0, y: 18, duration: 0.6 }, "-=0.35");
+    const frameId = window.requestAnimationFrame(() => {
+      const split = new SplitType(headingRef.current?.querySelectorAll(".projects__title-line") ?? [], { types: "chars" });
+      const context = gsap.context(() => {
+        gsap.timeline({ defaults: { ease: "power4.out" }, scrollTrigger: { trigger: sectionRef.current, start: "top 72%" } })
+          .from(".projects__eyebrow", { autoAlpha: 0, y: 16, duration: 0.55 })
+          .from(split.chars, { autoAlpha: 0, yPercent: 110, duration: 0.7, stagger: 0.014 }, "-=0.2")
+          .from(".projects__description", { autoAlpha: 0, y: 18, duration: 0.6 }, "-=0.35");
 
-      gsap.utils.toArray(".projects__card").forEach((card, index) => {
-        gsap.from(card, { autoAlpha: 0, x: index % 2 === 0 ? -48 : 48, y: 18, duration: 0.75, ease: "power4.out", scrollTrigger: { trigger: card, start: "top 78%" } });
-      });
-    }, sectionRef);
+        gsap.utils.toArray(".projects__card").forEach((card, index) => {
+          gsap.from(card, { autoAlpha: 0, x: index % 2 === 0 ? -48 : 48, y: 18, duration: 0.75, ease: "power4.out", scrollTrigger: { trigger: card, start: "top 78%" } });
+        });
+      }, sectionRef);
 
-    return () => { context.revert(); split.revert(); };
+      return () => {
+        context.revert();
+        split.revert();
+      };
+    });
+
+    return () => window.cancelAnimationFrame(frameId);
   }, []);
 
   return (
@@ -68,8 +72,8 @@ export default function Projects() {
               <h3>{project.title}</h3>
               <p>{project.description}</p>
               <div className="projects__actions">
-                <button type="button" onClick={() => window.open(project.liveUrl, "_blank", "noopener,noreferrer")}>{site.projectsIntro.visitLabel} <span aria-hidden="true">↗</span></button>
-                <button type="button" className="projects__github" onClick={() => window.open(project.githubUrl, "_blank", "noopener,noreferrer")}>{site.projectsIntro.githubLabel} <span aria-hidden="true">↗</span></button>
+                <a className="projects__action" href={project.liveUrl} target="_blank" rel="noreferrer" aria-label={`Open ${project.title} live demo in a new tab`}>{site.projectsIntro.visitLabel} <span aria-hidden="true">↗</span></a>
+                <a className="projects__action projects__github" href={project.githubUrl} target="_blank" rel="noreferrer" aria-label={`Open ${project.title} GitHub repository in a new tab`}>{site.projectsIntro.githubLabel} <span aria-hidden="true">↗</span></a>
               </div>
             </div>
           </article>
@@ -78,3 +82,5 @@ export default function Projects() {
     </section>
   );
 }
+
+export default memo(Projects);

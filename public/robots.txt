@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://beyondhorizon.dev/sitemap.xml
+Sitemap: https://beyond-horizon-mu.vercel.app/sitemap.xml

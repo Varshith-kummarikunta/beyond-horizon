@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, memo } from "react";
 import Layout from "../components/Layout/Layout";
 import Loader from "../components/effects/Loader";
 import useLoader from "../hooks/useLoader";
@@ -17,7 +17,7 @@ const Footer = lazy(() => import("../components/Footer/Footer"));
 
 const sections = [];
 
-export default function Home() {
+function HomePage() {
   const { loading, progress, finishLoading } = useLoader();
 
   useBodyLock(loading);
@@ -36,8 +36,14 @@ export default function Home() {
             <Skills />
             <Suspense fallback={null}>
               <Projects />
+            </Suspense>
+            <Suspense fallback={null}>
               <Travel />
+            </Suspense>
+            <Suspense fallback={null}>
               <ArtGallery />
+            </Suspense>
+            <Suspense fallback={null}>
               <Contact />
             </Suspense>
             {sections.map(([title, id], index) => (
@@ -55,3 +61,5 @@ export default function Home() {
     </>
   );
 }
+
+export default memo(HomePage);
