@@ -36,6 +36,27 @@ button{
     cursor:pointer;
 }
 
+.mouse-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    width: min(58vw, 760px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(circle, rgb(97 132 255 / 16%) 0%, rgb(60 83 185 / 8%) 30%, transparent 68%);
+    filter: blur(18px);
+    transform: translate3d(-100vw, -100vh, 0) translate(-50%, -50%);
+    transition: opacity 500ms ease;
+    will-change: transform;
+}
+
+.mouse-glow--visible {
+    opacity: 1;
+}
+
 html.custom-cursor-active,
 html.custom-cursor-active * {
     cursor: none !important;
@@ -93,7 +114,8 @@ html.custom-cursor-active * {
 }
 
 @media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
-    .custom-cursor {
+    .custom-cursor,
+    .mouse-glow {
         display: none;
     }
 }

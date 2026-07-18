@@ -1,6 +1,6 @@
 export default function Layout({ children }) {
   return (
-    <div className="relative overflow-x-hidden bg-[#050505] text-white">
+    <div className="relative z-10 overflow-x-hidden text-white">
       {children}
     </div>
   );
