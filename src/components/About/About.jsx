@@ -36,6 +36,11 @@ export default function About() {
           "-=0.35"
         )
         .from(
+          ".about__profile-card",
+          { autoAlpha: 0, y: 24, duration: 0.55 },
+          "-=0.25"
+        )
+        .from(
           ".about__stat-card",
           { autoAlpha: 0, y: 28, duration: 0.55, stagger: 0.12 },
           "-=0.4"
@@ -81,6 +86,21 @@ export default function About() {
         </div>
 
         <div className="about__statistics" aria-label="Experience statistics">
+          <div className="about__profile-card">
+            <img
+              className="about__profile-image"
+              src={site.personal.profileImage}
+              alt={`Portrait of ${site.personal.name}`}
+              loading="lazy"
+              decoding="async"
+            />
+            <div className="about__profile-copy">
+              <h3>{site.personal.name}</h3>
+              <p className="about__profile-title">{site.personal.title}</p>
+              <p className="about__profile-location">{site.personal.location}</p>
+            </div>
+          </div>
+
           {site.about.statistics.map(({ value, label }, index) => (
             <article
               key={label}

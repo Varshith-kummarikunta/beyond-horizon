@@ -1,11 +1,30 @@
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import SplitType from "split-type";
 import { gsap } from "../../animations/gsap";
+import GalleryViewer from "../GalleryViewer/GalleryViewer";
 import { site } from "../../data/site";
 
 export default function Travel() {
   const sectionRef = useRef(null);
   const headingRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(null);
+
+  const viewerItems = site.travel.map(({ location, subtitle, imagePath }) => ({
+    src: imagePath,
+    alt: `${location} travel photograph`,
+    title: location,
+    category: "Travel",
+    description: subtitle,
+  }));
+
+  const openViewer = (index) => setActiveIndex(index);
+  const closeViewer = () => setActiveIndex(null);
+  const onPrevious = () => {
+    setActiveIndex((current) => (current === null ? 0 : current === 0 ? viewerItems.length - 1 : current - 1));
+  };
+  const onNext = () => {
+    setActiveIndex((current) => (current === null ? 0 : current === viewerItems.length - 1 ? 0 : current + 1));
+  };
 
   useLayoutEffect(() => {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -59,13 +78,19 @@ export default function Travel() {
       </header>
 
       <div className="travel__gallery">
-        {site.travel.map(({ location, subtitle, imagePath, variant }) => (
-          <article key={location} className={`travel__card travel__card--${variant}`}>
+        {site.travel.map(({ location, subtitle, imagePath, variant }, index) => (
+          <button
+            key={location}
+            type="button"
+            className={`travel__card travel__card--${variant}`}
+            onClick={() => openViewer(index)}
+            aria-label={`Open ${location} gallery image`}
+          >
             <div className="travel__media" aria-hidden="true">
               <img
                 className="travel__image"
                 src={imagePath}
-                alt=""
+                alt={`${location} travel photograph`}
                 loading="lazy"
                 decoding="async"
               />
@@ -73,12 +98,24 @@ export default function Travel() {
               <span className="travel__shade" />
             </div>
             <div className="travel__caption">
+              <span className="travel__hint">Open</span>
               <h3>{location}</h3>
               <p>{subtitle}</p>
             </div>
-          </article>
+          </button>
         ))}
       </div>
+
+      {activeIndex !== null && (
+        <GalleryViewer
+          items={viewerItems}
+          index={activeIndex}
+          onClose={closeViewer}
+          onPrevious={onPrevious}
+          onNext={onNext}
+          label="Travel gallery viewer"
+        />
+      )}
     </section>
   );
 }

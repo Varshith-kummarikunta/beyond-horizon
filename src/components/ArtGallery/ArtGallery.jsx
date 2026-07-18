@@ -1,12 +1,32 @@
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import SplitType from "split-type";
 import { gsap } from "../../animations/gsap";
+import GalleryViewer from "../GalleryViewer/GalleryViewer";
 import { site } from "../../data/site";
 
 export default function ArtGallery() {
   const sectionRef = useRef(null);
   const headingRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(null);
   const { artGallery } = site;
+
+  const viewerItems = artGallery.images.map(({ src, title, category, year, description, alt }) => ({
+    src,
+    alt: alt || title,
+    title,
+    category,
+    year,
+    description,
+  }));
+
+  const openViewer = (index) => setActiveIndex(index);
+  const closeViewer = () => setActiveIndex(null);
+  const onPrevious = () => {
+    setActiveIndex((current) => (current === null ? 0 : current === 0 ? viewerItems.length - 1 : current - 1));
+  };
+  const onNext = () => {
+    setActiveIndex((current) => (current === null ? 0 : current === viewerItems.length - 1 ? 0 : current + 1));
+  };
 
   useLayoutEffect(() => {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -49,18 +69,35 @@ export default function ArtGallery() {
       <div className="art-gallery__grid">
         {artGallery.images.length === 0 ? (
           <p className="art-gallery__empty">{artGallery.emptyMessage}</p>
-        ) : artGallery.images.map(({ src, title, category, year, description, alt }) => (
-          <figure key={src} className="art-gallery__card">
+        ) : artGallery.images.map(({ src, title, category, year, description, alt }, index) => (
+          <button
+            key={src}
+            type="button"
+            className="art-gallery__card"
+            onClick={() => openViewer(index)}
+            aria-label={`Open ${title} in gallery`}
+          >
             <img className="art-gallery__image" src={src} alt={alt || title} loading="lazy" decoding="async" />
             <div className="art-gallery__glow" aria-hidden="true" />
-            <figcaption>
+            <div className="art-gallery__meta">
               <strong>{title}</strong>
-              {(category || year) && <span>{[category, year].filter(Boolean).join(" \u00B7 ")}</span>}
+              {(category || year) && <span>{[category, year].filter(Boolean).join(" · ")}</span>}
               {description && <p>{description}</p>}
-            </figcaption>
-          </figure>
+            </div>
+          </button>
         ))}
       </div>
+
+      {activeIndex !== null && (
+        <GalleryViewer
+          items={viewerItems}
+          index={activeIndex}
+          onClose={closeViewer}
+          onPrevious={onPrevious}
+          onNext={onNext}
+          label="Art gallery viewer"
+        />
+      )}
     </section>
   );
 }
