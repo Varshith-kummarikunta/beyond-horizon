@@ -14,6 +14,21 @@ export default function App() {
     let rafId;
     let displayedProgress = 0;
 
+    const scrollToSection = (event) => {
+      const target = document.getElementById(event.detail.id);
+      if (!target) return;
+
+      if (lenis) lenis.scrollTo(target, { offset: -96 });
+      else target.scrollIntoView({ behavior: "auto", block: "start" });
+    };
+
+    const syncNavigation = () => {
+      document.documentElement.classList.toggle(
+        "has-scrolled",
+        lenis ? lenis.scroll > 24 : window.scrollY > 24
+      );
+    };
+
     const stopLenis = () => {
       if (rafId !== undefined) {
         cancelAnimationFrame(rafId);
@@ -22,6 +37,7 @@ export default function App() {
 
       lenis?.destroy();
       lenis = undefined;
+      syncNavigation();
     };
 
     const startLenis = () => {
@@ -40,6 +56,7 @@ export default function App() {
         displayedProgress += (progress - displayedProgress) * 0.14;
         progressFillRef.current.style.transform = `scaleX(${displayedProgress})`;
         progressFillRef.current.classList.toggle("scroll-progress__fill--visible", progress > 0);
+        syncNavigation();
 
         rafId = requestAnimationFrame(raf);
       };
@@ -53,11 +70,16 @@ export default function App() {
     };
 
     startLenis();
+    window.addEventListener("lenis-scroll-to", scrollToSection);
+    window.addEventListener("scroll", syncNavigation, { passive: true });
     reducedMotion.addEventListener("change", handleMotionPreference);
 
     return () => {
+      window.removeEventListener("lenis-scroll-to", scrollToSection);
+      window.removeEventListener("scroll", syncNavigation);
       reducedMotion.removeEventListener("change", handleMotionPreference);
       stopLenis();
+      document.documentElement.classList.remove("has-scrolled");
     };
   }, []);
 
