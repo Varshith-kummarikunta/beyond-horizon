@@ -57,6 +57,35 @@ button{
     opacity: 1;
 }
 
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 10000;
+    height: 2px;
+    overflow: hidden;
+    pointer-events: none;
+    background: rgb(135 229 255 / 5%);
+    backdrop-filter: blur(10px);
+}
+
+.scroll-progress__fill {
+    width: 100%;
+    height: 100%;
+    transform: scaleX(0);
+    transform-origin: left center;
+    opacity: 0;
+    background: linear-gradient(90deg, #3be5ff, #8cf4ff 55%, #c7fbff);
+    box-shadow: 0 0 12px rgb(59 229 255 / 65%), 0 0 28px rgb(59 229 255 / 28%);
+    transition: opacity 240ms ease;
+    will-change: transform;
+}
+
+.scroll-progress__fill--visible {
+    opacity: 0.9;
+}
+
 html.custom-cursor-active,
 html.custom-cursor-active * {
     cursor: none !important;
@@ -115,7 +144,8 @@ html.custom-cursor-active * {
 
 @media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
     .custom-cursor,
-    .mouse-glow {
+    .mouse-glow,
+    .scroll-progress {
         display: none;
     }
 }
