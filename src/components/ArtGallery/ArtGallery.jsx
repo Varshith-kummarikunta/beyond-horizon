@@ -25,7 +25,7 @@ export default function ArtGallery() {
         .from(".art-gallery__eyebrow", { autoAlpha: 0, y: 16, duration: 0.55 })
         .from(split.chars, { autoAlpha: 0, yPercent: 110, duration: 0.7, stagger: 0.014 }, "-=0.2")
         .from(".art-gallery__description", { autoAlpha: 0, y: 18, duration: 0.6 }, "-=0.35")
-        .from(".art-gallery__card", { autoAlpha: 0, y: 28, duration: 0.6, stagger: 0.1 }, "-=0.28");
+        .from(".art-gallery__card, .art-gallery__empty", { autoAlpha: 0, y: 28, duration: 0.6, stagger: 0.1 }, "-=0.28");
     }, sectionRef);
 
     return () => {
@@ -47,7 +47,9 @@ export default function ArtGallery() {
       </header>
 
       <div className="art-gallery__grid">
-        {artGallery.images.map(({ src, title, category, year, description, alt }) => (
+        {artGallery.images.length === 0 ? (
+          <p className="art-gallery__empty">{artGallery.emptyMessage}</p>
+        ) : artGallery.images.map(({ src, title, category, year, description, alt }) => (
           <figure key={src} className="art-gallery__card">
             <img className="art-gallery__image" src={src} alt={alt || title} loading="lazy" decoding="async" />
             <div className="art-gallery__glow" aria-hidden="true" />

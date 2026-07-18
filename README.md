@@ -1,16 +1,51 @@
-# React + Vite
+# Beyond Horizon
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A cinematic, data-driven portfolio for Kummarikunta Varshith. It combines high-performance motion, an optional React Three Fiber Hero scene, and accessible, responsive portfolio sections.
 
-Currently, two official plugins are available:
+## Tech stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React 19 and Vite 8
+- Tailwind CSS v4
+- GSAP, Framer Motion, and Lenis
+- React Three Fiber and Drei
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Responsive cinematic Hero with a lazy-loaded 3D scene
+- Centralized content in `src/data/site.js`
+- Accessible navigation, focus states, reduced-motion support, and lazy-loaded media
+- Project, travel, and empty-safe art galleries
+- SEO metadata, JSON-LD, sitemap, robots, manifest, and favicon
+- Production code splitting for below-the-fold sections and Three.js
 
-## Expanding the ESLint configuration
+## Installation
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm install
+```
+
+## Commands
+
+```bash
+npm run dev
+npm run lint
+npm run build
+npm run preview
+```
+
+## Content and assets
+
+Update portfolio content in `src/data/site.js`.
+
+- Travel images belong in `public/images/travel/`.
+- Project screenshots can be added as `/images/projects/project-name.webp` and referenced through `screenshotPath`.
+- Sketches belong in `public/images/sketches/`; add their metadata to `site.artGallery.images` after the files exist.
+
+## Deploying to Vercel
+
+This is a static Vite application and needs no environment variables or custom routing configuration.
+
+1. Import the repository into Vercel.
+2. Use the default build command: `npm run build`.
+3. Set the output directory to `dist` if Vercel does not detect Vite automatically.
+4. Update the canonical URL, Open Graph URL, sitemap, and robots sitemap URL in `index.html`, `public/sitemap.xml`, and `public/robots.txt` if the production domain differs from `https://beyondhorizon.dev/`.

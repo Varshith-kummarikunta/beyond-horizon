@@ -529,6 +529,7 @@ html.has-scrolled .site-nav__inner {
 .art-gallery__title .char { display: inline-block; }
 .art-gallery__description { max-width: 39rem; margin-top: 1.65rem; color: rgb(223 239 244 / 68%); font-size: .98rem; line-height: 1.78; }
 .art-gallery__grid { column-count: 1; column-gap: .9rem; margin-top: 3.25rem; }
+.art-gallery__empty { margin: 0; padding: 1.15rem 1.25rem; border: 1px solid rgb(182 245 255 / 14%); border-radius: 1rem; background: linear-gradient(135deg, rgb(176 244 255 / 8%), rgb(255 255 255 / 3%)); color: rgb(218 242 247 / 66%); font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; box-shadow: inset 0 1px rgb(255 255 255 / 6%), 0 1.5rem 4rem rgb(0 0 0 / 18%); }
 .art-gallery__card { position: relative; display: block; overflow: hidden; break-inside: avoid; margin: 0 0 .9rem; border: 1px solid rgb(182 245 255 / 14%); border-radius: 1rem; background: #0c1216; box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 22%); }
 .art-gallery__card:nth-child(3n + 1) { aspect-ratio: 4 / 5.2; }
 .art-gallery__card:nth-child(3n + 2) { aspect-ratio: 4 / 4.35; }

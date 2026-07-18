@@ -72,6 +72,7 @@ export const site = {
     technologies: ["React", "Express", "OpenAI"],
     githubUrl: "https://github.com/Varshith-kummarikunta",
     liveUrl: "#",
+    // Add verified project-name.webp screenshots from public/images/projects when available.
     screenshotPath: null,
   },
   {
@@ -149,6 +150,7 @@ export const site = {
     eyebrow: "Creative Work",
     titleLines: ["Beyond Code,", "Through Art."],
     description: "Sketching has always been a way for me to observe, create, and tell stories beyond technology.",
+    emptyMessage: "New studies are being prepared.",
     images: [
       // Add verified sketch assets here as { src, title, category, year, description, alt }.
     ],
@@ -162,7 +164,7 @@ export const site = {
     downloadResumeLabel: "Download Resume",
   },
   footer: {
-    copyright: "© 2026 Beyond Horizon. All rights reserved.",
+    copyright: "\u00A9 2026 Beyond Horizon. All rights reserved.",
     stack: ["React", "GSAP", "Framer Motion", "Lenis", "Three.js"],
     backToTopLabel: "Back to top",
   },
