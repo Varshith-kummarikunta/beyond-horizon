@@ -149,7 +149,9 @@ export const site = {
     eyebrow: "Creative Work",
     titleLines: ["Beyond Code,", "Through Art."],
     description: "Sketching has always been a way for me to observe, create, and tell stories beyond technology.",
-    images: [],
+    images: [
+      // Add verified sketch assets here as { src, title, category, year, description, alt }.
+    ],
   },
   contact: {
     eyebrow: "Contact",

@@ -47,11 +47,15 @@ export default function ArtGallery() {
       </header>
 
       <div className="art-gallery__grid">
-        {artGallery.images.map(({ src, title, alt }) => (
+        {artGallery.images.map(({ src, title, category, year, description, alt }) => (
           <figure key={src} className="art-gallery__card">
-            <img className="art-gallery__image" src={src} alt={alt} loading="lazy" decoding="async" />
+            <img className="art-gallery__image" src={src} alt={alt || title} loading="lazy" decoding="async" />
             <div className="art-gallery__glow" aria-hidden="true" />
-            <figcaption>{title}</figcaption>
+            <figcaption>
+              <strong>{title}</strong>
+              {(category || year) && <span>{[category, year].filter(Boolean).join(" \u00B7 ")}</span>}
+              {description && <p>{description}</p>}
+            </figcaption>
           </figure>
         ))}
       </div>
