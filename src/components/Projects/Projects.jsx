@@ -1,0 +1,113 @@
+import { useLayoutEffect, useRef } from "react";
+import SplitType from "split-type";
+import { gsap } from "../../animations/gsap";
+
+const projects = [
+  {
+    number: "01",
+    title: "ATS Resume Analyzer",
+    technologies: ["React", "Express", "OpenAI"],
+    description: "AI-powered ATS resume checker with resume parsing, scoring, keyword analysis and suggestions.",
+  },
+  {
+    number: "02",
+    title: "Object Recognition",
+    technologies: ["React", "TensorFlow", "COCO SSD"],
+    description: "Real-time object detection using TensorFlow and browser camera APIs.",
+  },
+  {
+    number: "03",
+    title: "Configurable Rich Text Editor",
+    technologies: ["React", "TipTap", "Node.js"],
+    description: "Reusable editor with speech-to-text, markdown support and configurable plugins.",
+  },
+];
+
+export default function Projects() {
+  const sectionRef = useRef(null);
+  const headingRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (reducedMotion.matches) return undefined;
+
+    const split = new SplitType(
+      headingRef.current.querySelectorAll(".projects__title-line"),
+      { types: "chars" }
+    );
+    const context = gsap.context(() => {
+      gsap
+        .timeline({
+          defaults: { ease: "power4.out" },
+          scrollTrigger: { trigger: sectionRef.current, start: "top 72%" },
+        })
+        .from(".projects__eyebrow", { autoAlpha: 0, y: 16, duration: 0.55 })
+        .from(
+          split.chars,
+          { autoAlpha: 0, yPercent: 110, duration: 0.7, stagger: 0.014 },
+          "-=0.2"
+        )
+        .from(
+          ".projects__description",
+          { autoAlpha: 0, y: 18, duration: 0.6 },
+          "-=0.35"
+        );
+
+      gsap.utils.toArray(".projects__card").forEach((card, index) => {
+        gsap.from(card, {
+          autoAlpha: 0,
+          x: index % 2 === 0 ? -48 : 48,
+          y: 18,
+          duration: 0.75,
+          ease: "power4.out",
+          scrollTrigger: { trigger: card, start: "top 78%" },
+        });
+      });
+    }, sectionRef);
+
+    return () => {
+      context.revert();
+      split.revert();
+    };
+  }, []);
+
+  return (
+    <section id="projects" ref={sectionRef} className="projects" aria-labelledby="projects-title">
+      <div className="projects__atmosphere" aria-hidden="true"><span /></div>
+      <header className="projects__intro">
+        <p className="projects__eyebrow">Projects</p>
+        <h2 id="projects-title" ref={headingRef} className="projects__title" aria-label="Selected work that defines my journey.">
+          <span className="projects__title-line">Selected work</span>
+          <span className="projects__title-line projects__title-line--accent">that defines my journey.</span>
+        </h2>
+        <p className="projects__description">
+          A collection of projects showcasing modern frontend engineering, full stack development,
+          performance optimization, and interactive user experiences.
+        </p>
+      </header>
+
+      <div className="projects__list">
+        {projects.map((project, index) => (
+          <article key={project.number} className={`projects__card projects__card--${index % 2 === 0 ? "left" : "right"}`}>
+            <div className="projects__visual" aria-hidden="true">
+              <span className="projects__visual-grid" />
+              <span className="projects__visual-orbit" />
+              <span className="projects__number">{project.number}</span>
+            </div>
+            <div className="projects__details">
+              <ul className="projects__technologies" aria-label={`${project.title} technologies`}>
+                {project.technologies.map((technology) => <li key={technology}>{technology}</li>)}
+              </ul>
+              <h3>{project.title}</h3>
+              <p>{project.description}</p>
+              <div className="projects__actions">
+                <button type="button">Visit Project <span aria-hidden="true">↗</span></button>
+                <button type="button" className="projects__github">GitHub <span aria-hidden="true">↗</span></button>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}

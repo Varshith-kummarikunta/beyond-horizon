@@ -3,14 +3,16 @@ import Loader from "../components/effects/Loader";
 import useLoader from "../hooks/useLoader";
 import useBodyLock from "../hooks/useBodyLock";
 import Navigation from "../components/Navigation/Navigation";
+import Hero from "../components/Hero/Hero";
+import About from "../components/About/About";
+import Journey from "../components/Journey/Journey";
+import Skills from "../components/Skills/Skills";
+import Projects from "../components/Projects/Projects";
+import Travel from "../components/Travel/Travel";
+import Contact from "../components/Contact/Contact";
+import Footer from "../components/Footer/Footer";
 
 const sections = [
-  ["About", "about"],
-  ["Journey", "journey"],
-  ["Skills", "skills"],
-  ["Projects", "projects"],
-  ["Travel", "travel"],
-  ["Contact", "contact"],
 ];
 
 export default function Home() {
@@ -26,10 +28,13 @@ export default function Home() {
         <Layout>
           <Navigation />
           <main>
-            <section id="home" className="nav-page-section nav-page-section--hero">
-              <p className="nav-page-section__eyebrow">Portfolio 2026</p>
-              <h1>Beyond Horizon</h1>
-            </section>
+            <Hero />
+            <About />
+            <Journey />
+            <Skills />
+            <Projects />
+            <Travel />
+            <Contact />
             {sections.map(([title, id], index) => (
               <section key={id} id={id} className="nav-page-section">
                 <p className="nav-page-section__eyebrow">0{index + 1}</p>
@@ -37,6 +42,7 @@ export default function Home() {
               </section>
             ))}
           </main>
+          <Footer />
         </Layout>
       )}
     </>
