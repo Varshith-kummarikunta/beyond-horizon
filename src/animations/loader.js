@@ -7,19 +7,15 @@ export function animateLoader(onComplete) {
   const bar = document.querySelector("#loader-bar");
   const percent = document.querySelector("#loader-percent");
 
-  if (!loader || !title || !bar || !percent) return;
+  if (!loader || !title) return;
 
   const split = new SplitType(title, {
     types: "chars",
   });
 
   gsap.set(split.chars, {
-    yPercent: 120,
+    y: 110,
     opacity: 0,
-  });
-
-  gsap.set(loader, {
-    opacity: 1,
   });
 
   const tl = gsap.timeline({
@@ -29,37 +25,35 @@ export function animateLoader(onComplete) {
   });
 
   tl.to(split.chars, {
-    yPercent: 0,
+    y: 0,
     opacity: 1,
     stagger: 0.04,
-    duration: 0.9,
+    duration: 0.7,
   });
 
   tl.to(
     bar,
     {
       width: "100%",
-      duration: 2,
-      ease: "power2.inOut",
+      duration: 1,
     },
-    0.2
+    0
   );
 
   tl.to(
     percent,
     {
       opacity: 1,
-      y: -8,
+      y: -6,
       duration: 0.4,
     },
-    0.3
+    0.2
   );
 
   tl.to(loader, {
     opacity: 0,
-    scale: 1.05,
-    duration: 0.8,
-    ease: "power2.inOut",
+    duration: 0.7,
+    delay: 0.3,
     onComplete: () => {
       split.revert();
       onComplete?.();
