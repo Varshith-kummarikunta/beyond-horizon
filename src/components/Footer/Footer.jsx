@@ -30,20 +30,41 @@ export default function Footer() {
       <div className="footer__divider" aria-hidden="true"><span /></div>
       <div className="footer__content">
         <div className="footer__identity">
-          <a className="footer__brand" href="#home" onClick={navigateTo("home")}>{site.personal.name}</a>
+          <a
+  className="footer__brand"
+  href="#home"
+  onClick={navigateTo("home")}
+  aria-label="Go to homepage"
+>
+  {site.personal.name}
+</a>
           <p className="footer__tagline">{site.personal.tagline}</p>
         </div>
         <nav className="footer__navigation" aria-label="Footer navigation">
-          {site.navigation.map(({ label, id }) => <a key={id} className="footer__nav-link" href={`#${id}`} onClick={navigateTo(id)}>{label}</a>)}
+          {site.navigation.map(({ label, id }) => (
+  <a
+    key={id}
+    className="footer__nav-link"
+    href={`#${id}`}
+    onClick={navigateTo(id)}
+  >
+    {label}
+  </a>
+))}
         </nav>
         <nav className="footer__socials" aria-label="Social links">
-          {site.social.filter(({ label }) => label !== "Portfolio").map(({ label, url }) => <a key={label} className="footer__social-link" href={url} rel="noreferrer">{label}</a>)}
+          {site.social.filter(({ label }) => label !== "Portfolio").map(({ label, url }) => <a key={label} className="footer__social-link" href={url} rel="noopener noreferrer">{label}</a>)}
         </nav>
         <div className="footer__bottom">
           <p>{site.footer.copyright}</p>
           <p className="footer__built">Built with {site.footer.stack.map((item) => <span key={item}>{item}</span>)}</p>
         </div>
-        <button className="footer__top" type="button" onClick={navigateTo("home")}>{site.footer.backToTopLabel} <span aria-hidden="true">↑</span></button>
+        <button
+  className="footer__top"
+  type="button"
+  onClick={navigateTo("home")}
+  aria-label="Scroll back to top"
+>{site.footer.backToTopLabel} <span aria-hidden="true">↑</span></button>
       </div>
     </footer>
   );
