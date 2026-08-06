@@ -10,7 +10,7 @@ export const site = {
     location: "Hyderabad, Telangana, India",
     profileImage: "/images/profile/profile.jpg",
     resumeUrl:
-      "https://drive.google.com/file/d/1xSmIVuxNYroPBmkXzhjCzciOJqRQJQCO/view?usp=sharing",
+      "https://drive.google.com/file/d/1xSmIVuxNYroPBmkXzhjCzciOJqRQJQCO/view",
   },
   navigation: [
     { label: "Home", id: "home" },
@@ -36,9 +36,12 @@ export const site = {
     { label: "Portfolio", url: "https://varshith-kummarikunta.vercel.app/" },
   ],
   hero: {
-    titleLines: ["Beyond the Code,", "Beyond the Horizon."],
+    titleLines: [
+  "Beyond",
+  "Horizon",
+],
     description:
-      "Designing premium full-stack applications that combine AI, performance, and cinematic user experiences.",
+  "Building intelligent digital experiences through MERN, AI, and creative engineering.",
     primaryAction: { label: "Explore Work", target: "projects" },
     secondaryAction: { label: "Contact Me", target: "contact" },
     scrollLabel: "Scroll to explore",
