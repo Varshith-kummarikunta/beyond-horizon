@@ -30,6 +30,7 @@ export default function GalleryViewer({ items, index, onClose, onPrevious, onNex
   const transitionTimerRef = useRef(null);
   const resetTimerRef = useRef(null);
   const lastTapRef = useRef(0);
+  const isClosingRef = useRef(false);
   const zoomRef = useRef(1);
   const panRef = useRef({ x: 0, y: 0 });
 
@@ -48,8 +49,9 @@ export default function GalleryViewer({ items, index, onClose, onPrevious, onNex
   const totalItems = safeItems.length;
 
   const handleClose = useCallback(() => {
-    if (isClosing) return;
+    if (isClosingRef.current) return;
 
+    isClosingRef.current = true;
     setIsClosing(true);
 
     if (reducedMotion) {
@@ -58,7 +60,7 @@ export default function GalleryViewer({ items, index, onClose, onPrevious, onNex
     }
 
     closeTimerRef.current = window.setTimeout(() => onClose(), 220);
-  }, [isClosing, onClose, reducedMotion]);
+  }, [onClose, reducedMotion]);
 
   const handlePrevious = useCallback(() => {
     if (totalItems <= 1) return;
@@ -96,6 +98,14 @@ export default function GalleryViewer({ items, index, onClose, onPrevious, onNex
 
     return () => {
       mediaQuery.removeEventListener?.("change", updateMotionPreference);
+    };
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.add("gallery-viewer-active");
+
+    return () => {
+      document.documentElement.classList.remove("gallery-viewer-active");
     };
   }, []);
 

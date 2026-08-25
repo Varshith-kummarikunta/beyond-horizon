@@ -21,7 +21,7 @@ useEffect(() => {
     split = new SplitType(
       headingRef.current?.querySelectorAll(".projects__title-line") ?? [],
       {
-        types: "chars",
+        types: "words, chars",
       }
     );
 

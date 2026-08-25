@@ -50,7 +50,7 @@ function Travel() {
 
         gsap.utils.toArray(".travel__image").forEach((image, index) => {
           gsap.to(image, {
-            yPercent: index % 2 === 0 ? -8 : 8,
+            yPercent: index % 2 === 0 ? -2 : 2,
             ease: "none",
             scrollTrigger: {
               trigger: image.closest(".travel__card"),

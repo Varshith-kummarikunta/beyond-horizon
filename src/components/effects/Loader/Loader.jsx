@@ -10,6 +10,10 @@ export default function Loader({ progress, onExitComplete }) {
   const percentRef = useRef(null);
 
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return undefined;
+    }
+
     const ctx = gsap.context(() => {
       gsap.timeline({ defaults: { ease: "power4.out" } })
         .from(loaderRef.current, {
@@ -41,6 +45,11 @@ export default function Loader({ progress, onExitComplete }) {
 
   useEffect(() => {
     if (progress !== 100 || !onExitComplete) return;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      onExitComplete();
+      return undefined;
+    }
 
     const tl = gsap.timeline({ defaults: { ease: "power4.inOut" } });
 

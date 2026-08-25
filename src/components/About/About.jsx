@@ -13,7 +13,7 @@ export default function About() {
 
     const split = new SplitType(
       headingRef.current.querySelectorAll(".about__title-line"),
-      { types: "chars" }
+      { types: "words, chars" }
     );
     const context = gsap.context(() => {
       const trigger = {

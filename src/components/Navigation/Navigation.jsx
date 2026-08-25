@@ -9,10 +9,6 @@ export default function Navigation() {
   const menuTransition = { duration: reducedMotion ? 0 : 0.24, ease: "easeOut" };
 
   useEffect(() => {
-    const sections = site.navigation
-      .map(({ id }) => document.getElementById(id))
-      .filter(Boolean);
-
     const observer = new IntersectionObserver(
       (entries) => {
         const visibleSection = entries
@@ -24,8 +20,27 @@ export default function Navigation() {
       { rootMargin: "-35% 0px -55%", threshold: [0.01, 0.25, 0.5] }
     );
 
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
+    const observedSections = new Set();
+    const observeSections = () => {
+      site.navigation.forEach(({ id }) => {
+        const section = document.getElementById(id);
+        if (!section || observedSections.has(section)) return;
+
+        observedSections.add(section);
+        observer.observe(section);
+      });
+    };
+
+    observeSections();
+
+    const main = document.querySelector("main");
+    const mutationObserver = new MutationObserver(observeSections);
+    if (main) mutationObserver.observe(main, { childList: true, subtree: true });
+
+    return () => {
+      mutationObserver.disconnect();
+      observer.disconnect();
+    };
   }, []);
 
   useEffect(() => {

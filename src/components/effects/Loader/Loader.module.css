@@ -26,12 +26,15 @@
 }
 
 .title {
-  font-size: clamp(3rem, 10vw, 7rem);
+  max-inline-size: 100%;
+  font-size: clamp(2.25rem, 8.5vw, 6.25rem);
   font-weight: 900;
   line-height: .95;
   color: white;
   letter-spacing: -.05em;
-  overflow: hidden;
+  overflow-wrap: normal;
+  word-break: normal;
+  text-wrap: balance;
 }
 
 .track {

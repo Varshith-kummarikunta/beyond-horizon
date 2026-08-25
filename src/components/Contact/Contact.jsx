@@ -17,7 +17,7 @@ export default function Contact() {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (reducedMotion.matches) return undefined;
 
-    const split = new SplitType(headingRef.current.querySelectorAll(".contact__title-line"), { types: "chars" });
+    const split = new SplitType(headingRef.current.querySelectorAll(".contact__title-line"), { types: "words, chars" });
     const context = gsap.context(() => {
       gsap.timeline({ defaults: { ease: "power4.out" }, scrollTrigger: { trigger: sectionRef.current, start: "top 72%" } })
         .from(".contact__eyebrow", { autoAlpha: 0, y: 16, duration: 0.55 })
