@@ -11,56 +11,71 @@ export default function About() {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (reducedMotion.matches) return undefined;
 
-    const split = new SplitType(
-      headingRef.current.querySelectorAll(".about__title-line"),
-      { types: "words, chars" }
-    );
-    const context = gsap.context(() => {
-      const trigger = {
-        trigger: sectionRef.current,
-        start: "top 72%",
-        toggleActions: "play none none reverse",
-      };
+    let isMounted = true;
+    let split;
+    let context;
 
-      gsap
-        .timeline({ defaults: { ease: "power4.out" }, scrollTrigger: trigger })
-        .from(".about__eyebrow", { autoAlpha: 0, y: 16, duration: 0.55 })
-        .from(
-          split.chars,
-          { autoAlpha: 0, yPercent: 110, stagger: 0.014, duration: 0.7 },
-          "-=0.18"
-        )
-        .from(
-          ".about__description",
-          { autoAlpha: 0, y: 22, duration: 0.6 },
-          "-=0.35"
-        )
-        .from(
-          ".about__profile-card",
-          { autoAlpha: 0, y: 24, duration: 0.55 },
-          "-=0.25"
-        )
-        .from(
-          ".about__stat-card",
-          { autoAlpha: 0, y: 28, duration: 0.55, stagger: 0.12 },
-          "-=0.4"
-        );
+    const initAbout = () => {
+      if (!isMounted) return;
 
-      gsap.to(".about__atmosphere", {
-        yPercent: -12,
-        ease: "none",
-        scrollTrigger: {
+      split = new SplitType(
+        headingRef.current.querySelectorAll(".about__title-line"),
+        { types: "words, chars" }
+      );
+      context = gsap.context(() => {
+        const trigger = {
           trigger: sectionRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 0.7,
-        },
-      });
-    }, sectionRef);
+          start: "top 72%",
+          toggleActions: "play none none reverse",
+        };
+
+        gsap
+          .timeline({ defaults: { ease: "power4.out" }, scrollTrigger: trigger })
+          .from(".about__eyebrow", { autoAlpha: 0, y: 16, duration: 0.55 })
+          .from(
+            split.chars,
+            { autoAlpha: 0, yPercent: 110, stagger: 0.014, duration: 0.7 },
+            "-=0.18"
+          )
+          .from(
+            ".about__description",
+            { autoAlpha: 0, y: 22, duration: 0.6 },
+            "-=0.35"
+          )
+          .from(
+            ".about__profile-card",
+            { autoAlpha: 0, y: 24, duration: 0.55 },
+            "-=0.25"
+          )
+          .from(
+            ".about__stat-card",
+            { autoAlpha: 0, y: 28, duration: 0.55, stagger: 0.12 },
+            "-=0.4"
+          );
+
+        gsap.to(".about__atmosphere", {
+          yPercent: -12,
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 0.7,
+          },
+        });
+      }, sectionRef);
+    };
+
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(initAbout);
+    } else {
+      initAbout();
+    }
 
     return () => {
-      context.revert();
-      split.revert();
+      isMounted = false;
+      context?.revert();
+      split?.revert();
     };
   }, []);
 

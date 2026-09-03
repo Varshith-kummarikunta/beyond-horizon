@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef } from "react";
-import { gsap } from "../../animations/gsap";
+import { gsap, ScrollTrigger } from "../../animations/gsap";
 import { site } from "../../data/site";
 
 export default function Journey() {
@@ -12,6 +12,7 @@ export default function Journey() {
 
     const context = gsap.context(() => {
       const cards = gsap.utils.toArray(".journey__item");
+      const isMobile = window.innerWidth < 768;
 
       gsap.from(".journey__intro > *", {
         autoAlpha: 0,
@@ -40,7 +41,7 @@ export default function Journey() {
 
       gsap.from(cards, {
         autoAlpha: 0,
-        x: (index) => (index % 2 === 0 ? -44 : 44),
+        x: (index) => (isMobile ? 0 : index % 2 === 0 ? -44 : 44),
         y: 18,
         duration: 0.72,
         stagger: 0.16,
@@ -49,13 +50,11 @@ export default function Journey() {
       });
 
       cards.forEach((card) => {
-        gsap.to(card, {
-          scrollTrigger: {
-            trigger: card,
-            start: "top 60%",
-            end: "bottom 42%",
-            toggleClass: "journey__item--active",
-          },
+        ScrollTrigger.create({
+          trigger: card,
+          start: "top 60%",
+          end: "bottom 42%",
+          toggleClass: "journey__item--active",
         });
       });
     }, sectionRef);

@@ -28,6 +28,21 @@ export default function App() {
         "has-scrolled",
         lenis ? lenis.scroll > 24 : window.scrollY > 24
       );
+
+      if (!lenis && progressFillRef.current) {
+        const maxScroll =
+          document.documentElement.scrollHeight - window.innerHeight;
+        const progress =
+          maxScroll > 0
+            ? Math.min(1, Math.max(0, window.scrollY / maxScroll))
+            : 0;
+
+        progressFillRef.current.style.transform = `scaleX(${progress})`;
+        progressFillRef.current.classList.toggle(
+          "scroll-progress__fill--visible",
+          progress > 0
+        );
+      }
     };
 
     const stopLenis = () => {

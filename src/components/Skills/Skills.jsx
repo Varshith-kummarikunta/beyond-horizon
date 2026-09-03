@@ -11,42 +11,57 @@ export default function Skills() {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (reducedMotion.matches) return undefined;
 
-    const split = new SplitType(
-      headingRef.current.querySelectorAll(".skills__title-line"),
-      { types: "chars" }
-    );
-    const context = gsap.context(() => {
-      gsap
-        .timeline({
-          defaults: { ease: "power4.out" },
-          scrollTrigger: { trigger: sectionRef.current, start: "top 72%" },
-        })
-        .from(".skills__eyebrow", { autoAlpha: 0, y: 16, duration: 0.55 })
-        .from(
-          split.chars,
-          { autoAlpha: 0, yPercent: 110, duration: 0.7, stagger: 0.014 },
-          "-=0.2"
-        )
-        .from(
-          ".skills__description",
-          { autoAlpha: 0, y: 18, duration: 0.6 },
-          "-=0.35"
-        )
-        .from(
-          ".skills__card",
-          { autoAlpha: 0, y: 28, duration: 0.6, stagger: 0.12 },
-          "-=0.25"
-        )
-        .from(
-          ".skills__chip",
-          { autoAlpha: 0, y: 10, duration: 0.35, stagger: 0.035 },
-          "-=0.32"
-        );
-    }, sectionRef);
+    let isMounted = true;
+    let split;
+    let context;
+
+    const initSkills = () => {
+      if (!isMounted) return;
+
+      split = new SplitType(
+        headingRef.current.querySelectorAll(".skills__title-line"),
+        { types: "chars" }
+      );
+      context = gsap.context(() => {
+        gsap
+          .timeline({
+            defaults: { ease: "power4.out" },
+            scrollTrigger: { trigger: sectionRef.current, start: "top 72%" },
+          })
+          .from(".skills__eyebrow", { autoAlpha: 0, y: 16, duration: 0.55 })
+          .from(
+            split.chars,
+            { autoAlpha: 0, yPercent: 110, duration: 0.7, stagger: 0.014 },
+            "-=0.2"
+          )
+          .from(
+            ".skills__description",
+            { autoAlpha: 0, y: 18, duration: 0.6 },
+            "-=0.35"
+          )
+          .from(
+            ".skills__card",
+            { autoAlpha: 0, y: 28, duration: 0.6, stagger: 0.12 },
+            "-=0.25"
+          )
+          .from(
+            ".skills__chip",
+            { autoAlpha: 0, y: 10, duration: 0.35, stagger: 0.035 },
+            "-=0.32"
+          );
+      }, sectionRef);
+    };
+
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(initSkills);
+    } else {
+      initSkills();
+    }
 
     return () => {
-      context.revert();
-      split.revert();
+      isMounted = false;
+      context?.revert();
+      split?.revert();
     };
   }, []);
 

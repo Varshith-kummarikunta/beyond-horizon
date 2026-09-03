@@ -37,9 +37,12 @@ function ArtGallery() {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (reducedMotion.matches) return undefined;
 
+    let split;
+    let context;
+
     const frameId = window.requestAnimationFrame(() => {
-      const split = new SplitType(headingRef.current?.querySelectorAll(".art-gallery__title-line") ?? [], { types: "chars" });
-      const context = gsap.context(() => {
+      split = new SplitType(headingRef.current?.querySelectorAll(".art-gallery__title-line") ?? [], { types: "chars" });
+      context = gsap.context(() => {
         gsap
           .timeline({
             defaults: { ease: "power4.out" },
@@ -50,14 +53,13 @@ function ArtGallery() {
           .from(".art-gallery__description", { autoAlpha: 0, y: 18, duration: 0.6 }, "-=0.35")
           .from(".art-gallery__card, .art-gallery__empty", { autoAlpha: 0, y: 28, duration: 0.6, stagger: 0.1 }, "-=0.28");
       }, sectionRef);
-
-      return () => {
-        context.revert();
-        split.revert();
-      };
     });
 
-    return () => window.cancelAnimationFrame(frameId);
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      context?.revert();
+      split?.revert();
+    };
   }, []);
 
   return (

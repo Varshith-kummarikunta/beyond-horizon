@@ -17,17 +17,35 @@ export default function Contact() {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (reducedMotion.matches) return undefined;
 
-    const split = new SplitType(headingRef.current.querySelectorAll(".contact__title-line"), { types: "words, chars" });
-    const context = gsap.context(() => {
-      gsap.timeline({ defaults: { ease: "power4.out" }, scrollTrigger: { trigger: sectionRef.current, start: "top 72%" } })
-        .from(".contact__eyebrow", { autoAlpha: 0, y: 16, duration: 0.55 })
-        .from(split.chars, { autoAlpha: 0, yPercent: 110, duration: 0.7, stagger: 0.014 }, "-=0.2")
-        .from(".contact__description", { autoAlpha: 0, y: 18, duration: 0.6 }, "-=0.35")
-        .from(".contact__card", { autoAlpha: 0, y: 24, duration: 0.55, stagger: 0.12 }, "-=0.3")
-        .from(".contact__actions > *", { autoAlpha: 0, y: 14, duration: 0.5, stagger: 0.1 }, "-=0.25");
-    }, sectionRef);
+    let isMounted = true;
+    let split;
+    let context;
 
-    return () => { context.revert(); split.revert(); };
+    const initContact = () => {
+      if (!isMounted) return;
+
+      split = new SplitType(headingRef.current.querySelectorAll(".contact__title-line"), { types: "words, chars" });
+      context = gsap.context(() => {
+        gsap.timeline({ defaults: { ease: "power4.out" }, scrollTrigger: { trigger: sectionRef.current, start: "top 72%" } })
+          .from(".contact__eyebrow", { autoAlpha: 0, y: 16, duration: 0.55 })
+          .from(split.chars, { autoAlpha: 0, yPercent: 110, duration: 0.7, stagger: 0.014 }, "-=0.2")
+          .from(".contact__description", { autoAlpha: 0, y: 18, duration: 0.6 }, "-=0.35")
+          .from(".contact__card", { autoAlpha: 0, y: 24, duration: 0.55, stagger: 0.12 }, "-=0.3")
+          .from(".contact__actions > *", { autoAlpha: 0, y: 14, duration: 0.5, stagger: 0.1 }, "-=0.25");
+      }, sectionRef);
+    };
+
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(initContact);
+    } else {
+      initContact();
+    }
+
+    return () => {
+      isMounted = false;
+      context?.revert();
+      split?.revert();
+    };
   }, []);
 
   return (

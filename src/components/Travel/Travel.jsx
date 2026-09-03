@@ -35,9 +35,12 @@ function Travel() {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (reducedMotion.matches) return undefined;
 
+    let split;
+    let context;
+
     const frameId = window.requestAnimationFrame(() => {
-      const split = new SplitType(headingRef.current?.querySelectorAll(".travel__title-line") ?? [], { types: "chars" });
-      const context = gsap.context(() => {
+      split = new SplitType(headingRef.current?.querySelectorAll(".travel__title-line") ?? [], { types: "chars" });
+      context = gsap.context(() => {
         gsap
           .timeline({
             defaults: { ease: "power4.out" },
@@ -61,14 +64,13 @@ function Travel() {
           });
         });
       }, sectionRef);
-
-      return () => {
-        context.revert();
-        split.revert();
-      };
     });
 
-    return () => window.cancelAnimationFrame(frameId);
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      context?.revert();
+      split?.revert();
+    };
   }, []);
 
   return (

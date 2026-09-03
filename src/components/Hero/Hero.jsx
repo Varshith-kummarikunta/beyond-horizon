@@ -15,35 +15,50 @@ function Hero() {
     );
     if (reducedMotionPreference.matches) return undefined;
 
-    const split = new SplitType(
-      headingRef.current?.querySelectorAll(".hero__title-line") ?? [],
-      { types: "chars" },
-    );
-    const context = gsap.context(() => {
-      gsap
-        .timeline({ defaults: { ease: "power4.out" } })
-        .from(".hero__eyebrow", { autoAlpha: 0, y: 16, duration: 0.65 })
-        .from(
-          split.chars,
-          { autoAlpha: 0, yPercent: 115, duration: 0.8, stagger: 0.018 },
-          "-=0.25",
-        )
-        .from(
-          ".hero__description",
-          { autoAlpha: 0, y: 20, duration: 0.65 },
-          "-=0.42",
-        )
-        .from(
-          ".hero__actions > *",
-          { autoAlpha: 0, y: 14, duration: 0.55, stagger: 0.1 },
-          "-=0.35",
-        )
-        .from(".hero__meta", { autoAlpha: 0, y: 10, duration: 0.5 }, "-=0.25");
-    }, heroRef);
+    let isMounted = true;
+    let split;
+    let context;
+
+    const initHero = () => {
+      if (!isMounted) return;
+
+      split = new SplitType(
+        headingRef.current?.querySelectorAll(".hero__title-line") ?? [],
+        { types: "chars" },
+      );
+      context = gsap.context(() => {
+        gsap
+          .timeline({ defaults: { ease: "power4.out" } })
+          .from(".hero__eyebrow", { autoAlpha: 0, y: 16, duration: 0.65 })
+          .from(
+            split.chars,
+            { autoAlpha: 0, yPercent: 115, duration: 0.8, stagger: 0.018 },
+            "-=0.25",
+          )
+          .from(
+            ".hero__description",
+            { autoAlpha: 0, y: 20, duration: 0.65 },
+            "-=0.42",
+          )
+          .from(
+            ".hero__actions > *",
+            { autoAlpha: 0, y: 14, duration: 0.55, stagger: 0.1 },
+            "-=0.35",
+          )
+          .from(".hero__meta", { autoAlpha: 0, y: 10, duration: 0.5 }, "-=0.25");
+      }, heroRef);
+    };
+
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(initHero);
+    } else {
+      initHero();
+    }
 
     return () => {
-      context.revert();
-      split.revert();
+      isMounted = false;
+      context?.revert();
+      split?.revert();
     };
   }, []);
 

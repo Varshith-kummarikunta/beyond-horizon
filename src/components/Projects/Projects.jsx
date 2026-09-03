@@ -7,80 +7,95 @@ function Projects() {
   const sectionRef = useRef(null);
   const headingRef = useRef(null);
 
-useEffect(() => {
-  const reducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)"
-  );
-
-  if (reducedMotion.matches) return undefined;
-
-  let split;
-  let context;
-
-  const frameId = window.requestAnimationFrame(() => {
-    split = new SplitType(
-      headingRef.current?.querySelectorAll(".projects__title-line") ?? [],
-      {
-        types: "words, chars",
-      }
+  useEffect(() => {
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
     );
 
-    context = gsap.context(() => {
-      gsap
-        .timeline({
-          defaults: { ease: "power4.out" },
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 72%",
-          },
-        })
-        .from(".projects__eyebrow", {
-          autoAlpha: 0,
-          y: 16,
-          duration: 0.55,
-        })
-        .from(
-          split.chars,
+    if (reducedMotion.matches) return undefined;
+
+    let isMounted = true;
+    let split;
+    let context;
+    let frameId;
+
+    const initProjects = () => {
+      if (!isMounted) return;
+
+      frameId = window.requestAnimationFrame(() => {
+        if (!isMounted) return;
+
+        split = new SplitType(
+          headingRef.current?.querySelectorAll(".projects__title-line") ?? [],
           {
-            autoAlpha: 0,
-            yPercent: 110,
-            duration: 0.7,
-            stagger: 0.014,
-          },
-          "-=0.2"
-        )
-        .from(
-          ".projects__description",
-          {
-            autoAlpha: 0,
-            y: 18,
-            duration: 0.6,
-          },
-          "-=0.35"
+            types: "words, chars",
+          }
         );
 
-      gsap.utils.toArray(".projects__card").forEach((card, index) => {
-        gsap.from(card, {
-          autoAlpha: 0,
-          x: index % 2 === 0 ? -48 : 48,
-          y: 18,
-          duration: 0.75,
-          ease: "power4.out",
-          scrollTrigger: {
-            trigger: card,
-            start: "top 78%",
-          },
-        });
-      });
-    }, sectionRef);
-  });
+        context = gsap.context(() => {
+          gsap
+            .timeline({
+              defaults: { ease: "power4.out" },
+              scrollTrigger: {
+                trigger: sectionRef.current,
+                start: "top 72%",
+              },
+            })
+            .from(".projects__eyebrow", {
+              autoAlpha: 0,
+              y: 16,
+              duration: 0.55,
+            })
+            .from(
+              split.chars,
+              {
+                autoAlpha: 0,
+                yPercent: 110,
+                duration: 0.7,
+                stagger: 0.014,
+              },
+              "-=0.2"
+            )
+            .from(
+              ".projects__description",
+              {
+                autoAlpha: 0,
+                y: 18,
+                duration: 0.6,
+              },
+              "-=0.35"
+            );
 
-  return () => {
-    window.cancelAnimationFrame(frameId);
-    context?.revert();
-    split?.revert();
-  };
-}, []);
+          gsap.utils.toArray(".projects__card").forEach((card, index) => {
+            gsap.from(card, {
+              autoAlpha: 0,
+              x: index % 2 === 0 ? -48 : 48,
+              y: 18,
+              duration: 0.75,
+              ease: "power4.out",
+              scrollTrigger: {
+                trigger: card,
+                start: "top 78%",
+              },
+            });
+          });
+        }, sectionRef);
+      });
+    };
+
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(initProjects);
+    } else {
+      initProjects();
+    }
+
+    return () => {
+      isMounted = false;
+      if (frameId) window.cancelAnimationFrame(frameId);
+      context?.revert();
+      split?.revert();
+    };
+  }, []);
 
   return (
     <section
