@@ -18,7 +18,7 @@ function preloadImage(src) {
   image.src = src;
 }
 
-export default function GalleryViewer({ items, index, onClose, onPrevious, onNext, onNavigate, label }) {
+export default function GalleryViewer({ items, index, onClose, onPrevious, onNext, onNavigate }) {
   const dialogRef = useRef(null);
   const imageRef = useRef(null);
   const viewportRef = useRef(null);
@@ -384,7 +384,6 @@ export default function GalleryViewer({ items, index, onClose, onPrevious, onNex
       aria-modal="true"
       aria-labelledby="gallery-viewer-title"
       aria-describedby="gallery-viewer-description"
-      aria-label={label}
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
