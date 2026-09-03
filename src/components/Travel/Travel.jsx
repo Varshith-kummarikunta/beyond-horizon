@@ -92,16 +92,16 @@ function Travel() {
             onClick={() => openViewer(index)}
             aria-label={`Open ${location} gallery image`}
           >
-            <div className="travel__media" aria-hidden="true">
+            <div className="travel__media">
               <img
                 className="travel__image"
                 src={imagePath}
-                alt={`${location} travel photograph`}
+                alt=""
                 loading="lazy"
                 decoding="async"
               />
-              <span className="travel__terrain" />
-              <span className="travel__shade" />
+              <span className="travel__terrain" aria-hidden="true" />
+              <span className="travel__shade" aria-hidden="true" />
             </div>
             <div className="travel__caption">
               <span className="travel__hint">Open</span>

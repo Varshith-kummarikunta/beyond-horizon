@@ -1,4 +1,4 @@
-﻿import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 const MIN_SCALE = 1;
@@ -146,6 +146,12 @@ export default function GalleryViewer({ items, index, onClose, onPrevious, onNex
     };
   }, [item?.src, index, reducedMotion, safeItems]);
 
+  const handlersRef = useRef({});
+
+  useEffect(() => {
+    handlersRef.current = { handleClose, handlePrevious, handleNext, goToIndex, totalItems };
+  }, [handleClose, handlePrevious, handleNext, goToIndex, totalItems]);
+
   useEffect(() => {
     const previousActiveElement = document.activeElement;
     const previousOverflow = document.body.style.overflow;
@@ -153,33 +159,35 @@ export default function GalleryViewer({ items, index, onClose, onPrevious, onNex
     const dialog = dialogRef.current;
 
     const onKeyDown = (event) => {
+      const handlers = handlersRef.current;
+
       if (event.key === "Escape") {
         event.preventDefault();
-        handleClose();
+        handlers.handleClose?.();
         return;
       }
 
       if (event.key === "ArrowLeft") {
         event.preventDefault();
-        handlePrevious();
+        handlers.handlePrevious?.();
         return;
       }
 
       if (event.key === "ArrowRight") {
         event.preventDefault();
-        handleNext();
+        handlers.handleNext?.();
         return;
       }
 
       if (event.key === "Home") {
         event.preventDefault();
-        goToIndex(0);
+        handlers.goToIndex?.(0);
         return;
       }
 
       if (event.key === "End") {
         event.preventDefault();
-        goToIndex(totalItems - 1);
+        handlers.goToIndex?.((handlers.totalItems ?? 1) - 1);
         return;
       }
 
@@ -224,7 +232,7 @@ export default function GalleryViewer({ items, index, onClose, onPrevious, onNex
       window.removeEventListener("keydown", onKeyDown);
       previousActiveElement?.focus?.();
     };
-  }, [goToIndex, handleClose, handleNext, handlePrevious, item?.src, reducedMotion, totalItems]);
+  }, [reducedMotion]);
 
   const handleWheel = (event) => {
     if (!imageRef.current) return;

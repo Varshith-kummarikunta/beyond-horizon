@@ -1,4 +1,5 @@
-import { lazy, Suspense, memo } from "react";
+import { lazy, Suspense, memo, useCallback, useEffect, useRef } from "react";
+import { ScrollTrigger } from "../animations/gsap";
 import Layout from "../components/Layout/Layout";
 import Loader from "../components/effects/Loader";
 import useLoader from "../hooks/useLoader";
@@ -17,10 +18,36 @@ const Footer = lazy(() => import("../components/Footer/Footer"));
 
 const sections = [];
 
+function LazyMountNotifier({ children, onMount }) {
+  useEffect(() => {
+    onMount();
+  }, [onMount]);
+
+  return children;
+}
+
 function HomePage() {
   const { loading, progress, finishLoading } = useLoader();
+  const refreshRafRef = useRef(null);
 
   useBodyLock(loading);
+
+  const handleLazyMount = useCallback(() => {
+    if (refreshRafRef.current) {
+      cancelAnimationFrame(refreshRafRef.current);
+    }
+    refreshRafRef.current = requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+    });
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (refreshRafRef.current) {
+        cancelAnimationFrame(refreshRafRef.current);
+      }
+    };
+  }, []);
 
   return (
     <>
@@ -35,16 +62,24 @@ function HomePage() {
             <Journey />
             <Skills />
             <Suspense fallback={null}>
-              <Projects />
+              <LazyMountNotifier onMount={handleLazyMount}>
+                <Projects />
+              </LazyMountNotifier>
             </Suspense>
             <Suspense fallback={null}>
-              <Travel />
+              <LazyMountNotifier onMount={handleLazyMount}>
+                <Travel />
+              </LazyMountNotifier>
             </Suspense>
             <Suspense fallback={null}>
-              <ArtGallery />
+              <LazyMountNotifier onMount={handleLazyMount}>
+                <ArtGallery />
+              </LazyMountNotifier>
             </Suspense>
             <Suspense fallback={null}>
-              <Contact />
+              <LazyMountNotifier onMount={handleLazyMount}>
+                <Contact />
+              </LazyMountNotifier>
             </Suspense>
             {sections.map(([title, id], index) => (
               <section key={id} id={id} className="nav-page-section">
@@ -54,7 +89,9 @@ function HomePage() {
             ))}
           </main>
           <Suspense fallback={null}>
-            <Footer />
+            <LazyMountNotifier onMount={handleLazyMount}>
+              <Footer />
+            </LazyMountNotifier>
           </Suspense>
         </Layout>
       )}

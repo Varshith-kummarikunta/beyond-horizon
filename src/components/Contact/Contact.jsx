@@ -55,7 +55,7 @@ export default function Contact() {
 
       <div className="contact__actions">
         <a className="contact__button contact__button--primary" href={`mailto:${site.personal.email}`}>{site.contact.sendEmailLabel} <span aria-hidden="true">↗</span></a>
-        <button className="contact__button contact__button--secondary" type="button" onClick={() => window.open(site.personal.resumeUrl, "_blank", "noopener,noreferrer")}>{site.contact.downloadResumeLabel} <span aria-hidden="true">↓</span></button>
+        <a className="contact__button contact__button--secondary" href={site.personal.resumeUrl} target="_blank" rel="noopener noreferrer">{site.contact.downloadResumeLabel} <span aria-hidden="true">↓</span></a>
       </div>
     </section>
   );

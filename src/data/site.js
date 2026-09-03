@@ -8,7 +8,7 @@ export const site = {
     email: "varshithkummarikunta@gmail.com",
     phone: "+91 9381413278",
     location: "Hyderabad, Telangana, India",
-    profileImage: "/images/profile/profile.jpg",
+    profileImage: "/images/profile/profile.webp",
     resumeUrl:
       "https://drive.google.com/file/d/1xSmIVuxNYroPBmkXzhjCzciOJqRQJQCO/view",
   },
@@ -223,37 +223,37 @@ export const site = {
     {
       location: "Kedarkantha Trek",
       subtitle: "Snow mountains & adventure",
-      imagePath: "/images/travel/juda_Ka_talab.jpg",
+      imagePath: "/images/travel/juda_Ka_talab.webp",
       variant: "portrait-primary",
     },
     {
       location: "Lambasingi",
       subtitle: "Mist and mountains",
-      imagePath: "/images/travel/lambasingi.jpg",
+      imagePath: "/images/travel/lambasingi.webp",
       variant: "portrait-mist",
     },
     {
       location: "Beach Exploration",
       subtitle: "Ocean and sunsets",
-      imagePath: "/images/travel/beach.jpg",
+      imagePath: "/images/travel/beach.webp",
       variant: "portrait-beach",
     },
     {
       location: "Village Life",
       subtitle: "Simple moments",
-      imagePath: "/images/travel/aura_farming.jpg",
+      imagePath: "/images/travel/aura_farming.webp",
       variant: "tall-village",
     },
     {
       location: "Sunrise Moments",
       subtitle: "New beginnings",
-      imagePath: "/images/travel/sunrise.jpg",
+      imagePath: "/images/travel/sunrise.webp",
       variant: "portrait-sunrise",
     },
     {
       location: "Sunset Moments",
       subtitle: "Golden hour reflections",
-      imagePath: "/images/travel/sunset.jpg",
+      imagePath: "/images/travel/sunset.webp",
       variant: "square-sunset",
     },
   ],
@@ -271,7 +271,7 @@ export const site = {
     emptyMessage: "New studies are being prepared.",
     images: [
       {
-        src: "/images/sketches/IMG_20250202_222721.jpg",
+        src: "/images/sketches/IMG_20250202_222721.webp",
         title: "Quiet Resolve",
         category: "Charcoal Portrait",
         year: "2025",
@@ -279,7 +279,7 @@ export const site = {
         alt: "Charcoal portrait of a man in profile wearing a jacket.",
       },
       {
-        src: "/images/sketches/IMG_20250214_173659.jpg",
+        src: "/images/sketches/IMG_20250214_173659.webp",
         title: "The Ensemble",
         category: "Charcoal Portrait",
         year: "2025",
@@ -288,7 +288,7 @@ export const site = {
         alt: "Charcoal drawing of three people, with a man in a tuxedo in the foreground.",
       },
       {
-        src: "/images/sketches/IMG_20250217_144403.jpg",
+        src: "/images/sketches/IMG_20250217_144403.webp",
         title: "Edge of Light",
         category: "Charcoal Portrait",
         year: "2025",
@@ -296,7 +296,7 @@ export const site = {
         alt: "High-contrast charcoal portrait of a man looking to the side.",
       },
       {
-        src: "/images/sketches/IMG_20250302_234810.jpg",
+        src: "/images/sketches/IMG_20250302_234810.webp",
         title: "Blue Hours",
         category: "Color Pencil",
         year: "2025",
@@ -304,7 +304,7 @@ export const site = {
         alt: "Color pencil drawing of a woman with blue hair against a dark blue background.",
       },
       {
-        src: "/images/sketches/IMG_20250330_154952.jpg",
+        src: "/images/sketches/IMG_20250330_154952.webp",
         title: "Cricket Study",
         category: "Color Pencil",
         year: "2025",
@@ -312,7 +312,7 @@ export const site = {
         alt: "Color pencil collage featuring a cricketer and several cricket scenes.",
       },
       {
-        src: "/images/sketches/IMG_20260519_213035.jpg",
+        src: "/images/sketches/IMG_20260519_213035.webp",
         title: "Winged Guardian",
         category: "Ink Illustration",
         year: "2026",
@@ -321,7 +321,7 @@ export const site = {
         alt: "Sepia ink illustration of a winged warrior with a spear beside a serpent.",
       },
       {
-        src: "/images/sketches/IMG_20260519_231422.jpg",
+        src: "/images/sketches/IMG_20260519_231422.webp",
         title: "Winged Guardian — Detail",
         category: "Ink Illustration",
         year: "2026",
@@ -330,7 +330,7 @@ export const site = {
         alt: "Detailed sepia illustration of a winged warrior holding a spear above a serpent.",
       },
       {
-        src: "/images/sketches/IMG_20260522_231054.jpg",
+        src: "/images/sketches/IMG_20260522_231054.webp",
         title: "Strings of Memory",
         category: "Graphite Illustration",
         year: "2026",
@@ -339,7 +339,7 @@ export const site = {
         alt: "Graphite drawing of a musician playing a traditional string instrument.",
       },
       {
-        src: "/images/sketches/IMG_20260605_200430.jpg",
+        src: "/images/sketches/IMG_20260605_200430.webp",
         title: "Sharing the Work",
         category: "Art Documentation",
         year: "2026",
@@ -347,7 +347,7 @@ export const site = {
         alt: "Photo of an art presentation with people displaying sketches in front of a classroom board.",
       },
       {
-        src: "/images/sketches/Picsart_25-02-03_22-23-31-464.jpg",
+        src: "/images/sketches/Picsart_25-02-03_22-23-31-464.webp",
         title: "Classic Study",
         category: "Charcoal Portrait",
         year: "2025",
@@ -355,7 +355,7 @@ export const site = {
         alt: "Charcoal portrait of a man in a suit and tie.",
       },
       {
-        src: "/images/sketches/Picsart_25-02-13_23-56-02-773.jpg",
+        src: "/images/sketches/Picsart_25-02-13_23-56-02-773.webp",
         title: "Messenger",
         category: "Graphite Illustration",
         year: "2025",
@@ -363,7 +363,7 @@ export const site = {
         alt: "Graphite drawing of a woman in profile beside a black raven.",
       },
       {
-        src: "/images/sketches/Picsart_25-02-21_02-15-44-195.jpg",
+        src: "/images/sketches/Picsart_25-02-21_02-15-44-195.webp",
         title: "Beyond the Horizon",
         category: "Concept Study",
         year: "2025",

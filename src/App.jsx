@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import Lenis from "lenis";
+import { gsap, ScrollTrigger } from "./animations/gsap";
 import CustomCursor from "./components/effects/CustomCursor/CustomCursor";
 import MouseGlow from "./components/effects/MouseGlow/MouseGlow";
 import ScrollProgress from "./components/effects/ScrollProgress/ScrollProgress";
@@ -11,7 +12,7 @@ export default function App() {
   useEffect(() => {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let lenis;
-    let rafId;
+    let tickerFn;
     let displayedProgress = 0;
 
     const scrollToSection = (event) => {
@@ -30,9 +31,9 @@ export default function App() {
     };
 
     const stopLenis = () => {
-      if (rafId !== undefined) {
-        cancelAnimationFrame(rafId);
-        rafId = undefined;
+      if (tickerFn) {
+        gsap.ticker.remove(tickerFn);
+        tickerFn = undefined;
       }
 
       lenis?.destroy();
@@ -49,19 +50,26 @@ export default function App() {
         smoothTouch: false,
       });
 
-      const raf = (time) => {
-        lenis.raf(time);
+      lenis.on("scroll", ScrollTrigger.update);
 
-        const progress = lenis.progress;
+      tickerFn = (time) => {
+        lenis.raf(time * 1000);
+
+        const progress = lenis.progress ?? 0;
         displayedProgress += (progress - displayedProgress) * 0.14;
-        progressFillRef.current.style.transform = `scaleX(${displayedProgress})`;
-        progressFillRef.current.classList.toggle("scroll-progress__fill--visible", progress > 0);
-        syncNavigation();
 
-        rafId = requestAnimationFrame(raf);
+        if (progressFillRef.current) {
+          progressFillRef.current.style.transform = `scaleX(${displayedProgress})`;
+          progressFillRef.current.classList.toggle(
+            "scroll-progress__fill--visible",
+            progress > 0
+          );
+        }
+        syncNavigation();
       };
 
-      rafId = requestAnimationFrame(raf);
+      gsap.ticker.add(tickerFn);
+      gsap.ticker.lagSmoothing(0);
     };
 
     const handleMotionPreference = () => {
