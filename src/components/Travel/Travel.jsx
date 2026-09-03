@@ -106,7 +106,6 @@ function Travel() {
               <span className="travel__shade" aria-hidden="true" />
             </div>
             <div className="travel__caption">
-              <span className="travel__hint">Open</span>
               <h3>{location}</h3>
               <p>{subtitle}</p>
             </div>

@@ -241,8 +241,8 @@ export const site = {
       variant: "portrait-beach",
     },
     {
-      location: "Village Life",
-      subtitle: "Simple moments",
+      location: "Mountain Summit",
+      subtitle: "Above the clouds",
       imagePath: "/images/travel/aura_farming.webp",
       variant: "tall-village",
     },
@@ -358,11 +358,12 @@ export const site = {
       },
       {
         src: "/images/sketches/Picsart_25-02-13_23-56-02-773.webp",
-        title: "Messenger",
+        title: "Mother of Dragons",
         category: "Graphite Illustration",
         year: "2025",
-        description: "A portrait balanced with the silhouette of a raven.",
-        alt: "Graphite drawing of a woman in profile beside a black raven.",
+        description:
+          "A textured graphite portrait of Daenerys Targaryen with a dragon perched upon her shoulder.",
+        alt: "Graphite portrait of Daenerys Targaryen with a dragon perched on her shoulder.",
       },
       {
         src: "/images/sketches/Picsart_25-02-21_02-15-44-195.webp",
