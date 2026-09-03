@@ -40,6 +40,40 @@ button{
     cursor:pointer;
 }
 
+.skip-link {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 100002;
+    padding: 0.75rem 1.25rem;
+    border: 2px solid #8befff;
+    border-radius: 0.5rem;
+    background: #050505;
+    color: #ecfcff;
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    box-shadow: 0 4px 20px rgb(0 0 0 / 60%);
+    transform: translateY(-200%);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+    outline: 2px solid #8befff;
+    outline-offset: 2px;
+}
+
+main:focus {
+    outline: none;
+}
+
 .gallery-viewer {
     position: fixed;
     inset: 0;
@@ -572,17 +606,6 @@ html.has-scrolled .site-nav__inner {
     outline-offset: 3px;
 }
 
-.nav-page-section {
-    display: grid;
-    min-height: 100svh;
-    align-content: center;
-    padding: 6rem 1.25rem 3rem;
-    border-bottom: 1px solid rgb(255 255 255 / 5%);
-}
-
-.nav-page-section__eyebrow { color: #86e8fa; font-size: .72rem; letter-spacing: .22em; text-transform: uppercase; }
-.nav-page-section h1, .nav-page-section h2 { margin-top: .7rem; font-size: clamp(3rem, 12vw, 9rem); font-weight: 900; letter-spacing: -.06em; line-height: .9; }
-
 .hero {
     position: relative;
     min-height: max(42rem, 100svh);
@@ -1009,8 +1032,8 @@ html.has-scrolled .site-nav__inner {
 .travel__card--portrait-primary,
 .travel__card--portrait-mist,
 .travel__card--portrait-beach,
-.travel__card--portrait-sunrise { --travel-ratio: 3 / 4; }
-.travel__card--tall-village { --travel-ratio: 9 / 16; }
+.travel__card--portrait-sunrise,
+.travel__card--tall-village { --travel-ratio: 3 / 4; }
 .travel__card--square-sunset { --travel-ratio: 1; }
 .travel__terrain { position: absolute; right: -8%; bottom: -12%; left: -8%; height: 56%; opacity: .1; background: linear-gradient(145deg, transparent 24%, rgb(128 199 218 / 16%) 25% 44%, transparent 45%), linear-gradient(35deg, transparent 20%, rgb(8 25 33 / 62%) 21% 72%, transparent 73%); transform: skewY(-12deg); }
 .travel__shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgb(5 9 12 / 6%) 0%, rgb(3 7 10 / 48%) 85%, rgb(3 7 10 / 72%) 100%); }
@@ -1121,7 +1144,6 @@ html.has-scrolled .site-nav__inner {
     .site-nav__inner { width: min(calc(100% - 5rem), 78rem); max-width: none; padding: 0 1.35rem 0 1.6rem; border-radius: 999px; }
     .site-nav__links { display: flex; gap: .2rem; }
     .site-nav__toggle { display: none; }
-    .nav-page-section { padding-right: 2.5rem; padding-left: 2.5rem; }
     .hero { padding: 10rem 2.5rem 7rem; }
     .hero__content { margin-left: clamp(0rem, 7vw, 8.5rem); }
     .hero__meta { left: 2.5rem; }
@@ -1155,7 +1177,7 @@ html.has-scrolled .site-nav__inner {
     .travel__card--portrait-primary,
     .travel__card--portrait-mist,
     .travel__card--portrait-beach { grid-column: span 4; }
-    .travel__card--tall-village { grid-column: span 3; }
+    .travel__card--tall-village { --travel-ratio: 9 / 16; grid-column: span 3; }
     .travel__card--portrait-sunrise { grid-column: span 4; }
     .travel__card--square-sunset { grid-column: span 5; }
     .art-gallery { padding: 9rem 2.5rem; }

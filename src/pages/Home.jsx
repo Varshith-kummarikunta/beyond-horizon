@@ -16,8 +16,6 @@ const ArtGallery = lazy(() => import("../components/ArtGallery/ArtGallery"));
 const Contact = lazy(() => import("../components/Contact/Contact"));
 const Footer = lazy(() => import("../components/Footer/Footer"));
 
-const sections = [];
-
 function LazyMountNotifier({ children, onMount }) {
   useEffect(() => {
     onMount();
@@ -55,8 +53,11 @@ function HomePage() {
         <Loader progress={progress} onExitComplete={finishLoading} />
       ) : (
         <Layout>
+          <a href="#main-content" className="skip-link">
+            Skip to main content
+          </a>
           <Navigation />
-          <main>
+          <main id="main-content" tabIndex="-1">
             <Hero />
             <About />
             <Journey />
@@ -81,12 +82,6 @@ function HomePage() {
                 <Contact />
               </LazyMountNotifier>
             </Suspense>
-            {sections.map(([title, id], index) => (
-              <section key={id} id={id} className="nav-page-section">
-                <p className="nav-page-section__eyebrow">0{index + 1}</p>
-                <h2>{title}</h2>
-              </section>
-            ))}
           </main>
           <Suspense fallback={null}>
             <LazyMountNotifier onMount={handleLazyMount}>
