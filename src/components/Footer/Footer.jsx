@@ -53,7 +53,7 @@ export default function Footer() {
 ))}
         </nav>
         <nav className="footer__socials" aria-label="Social links">
-          {site.social.filter(({ label }) => label !== "Portfolio").map(({ label, url }) => <a key={label} className="footer__social-link" href={url} rel="noopener noreferrer">{label}</a>)}
+          {site.social.filter(({ label }) => label !== "Portfolio").map(({ label, url }) => <a key={label} className="footer__social-link" href={url} target="_blank" rel="noopener noreferrer">{label}</a>)}
         </nav>
         <div className="footer__bottom">
           <p>{site.footer.copyright}</p>
