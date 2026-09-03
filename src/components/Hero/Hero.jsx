@@ -88,7 +88,7 @@ function Hero() {
       <div className="hero__overlay" aria-hidden="true" />
 
       <div className="hero__content">
-        <p className="hero__eyebrow">{site.personal.title}</p>
+        <p className="hero__eyebrow">{site.personal.name} · {site.personal.title}</p>
         <h1
           id="hero-title"
           ref={headingRef}
@@ -108,6 +108,15 @@ function Hero() {
             onClick={navigateTo(site.hero.primaryAction.target)}
           >
             {site.hero.primaryAction.label}
+          </a>
+          <a
+            className="hero__button hero__button--secondary"
+            href={site.personal.resumeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open Varshith Kummarikunta's resume in a new tab"
+          >
+            Resume <span aria-hidden="true">↗</span>
           </a>
           <a
             className="hero__button hero__button--secondary"

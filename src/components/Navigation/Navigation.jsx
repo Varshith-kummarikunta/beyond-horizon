@@ -146,6 +146,15 @@ export default function Navigation() {
               {label}
             </a>
           ))}
+          <a
+            className="site-nav__link site-nav__link--resume"
+            href={site.personal.resumeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open Varshith Kummarikunta's resume in a new tab"
+          >
+            Resume <span aria-hidden="true">↗</span>
+          </a>
         </div>
 
         <button
@@ -189,6 +198,16 @@ export default function Navigation() {
                 {label}
               </a>
             ))}
+            <a
+              className="site-nav__mobile-link site-nav__mobile-link--resume"
+              href={site.personal.resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={closeMenu}
+              aria-label="Open Varshith Kummarikunta's resume in a new tab"
+            >
+              Resume <span aria-hidden="true">↗</span>
+            </a>
           </nav>
         </>
       )}

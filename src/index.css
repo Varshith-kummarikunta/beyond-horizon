@@ -510,6 +510,35 @@ html.has-scrolled .site-nav__inner {
     transform: scaleX(1);
 }
 
+.site-nav__link--resume {
+    color: #f0f9ff;
+    border: 1px solid rgb(174 238 255 / 24%);
+    background: rgb(174 238 255 / 8%);
+    margin-left: .25rem;
+}
+
+.site-nav__link--resume:hover {
+    color: #ffffff;
+    background: rgb(174 238 255 / 16%);
+    border-color: rgb(174 238 255 / 45%);
+}
+
+.site-nav__mobile-link--resume {
+    color: #f0f9ff;
+    border: 1px solid rgb(174 238 255 / 24%);
+    background: rgb(174 238 255 / 8%);
+    border-radius: .65rem;
+    padding: .65rem 1rem;
+    margin-top: .6rem;
+    text-align: center;
+}
+
+.site-nav__mobile-link--resume:hover {
+    color: #ffffff;
+    background: rgb(174 238 255 / 16%);
+    border-color: rgb(174 238 255 / 45%);
+}
+
 .site-nav__toggle {
     display: grid;
     width: 2.5rem;

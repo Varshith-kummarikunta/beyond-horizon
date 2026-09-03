@@ -168,9 +168,9 @@ function Projects() {
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={`Open ${project.title} live demo`}
+                    aria-label={`Open ${project.title} ${project.liveLabel ? project.liveLabel.toLowerCase() : "live demo"}`}
                   >
-                    Live Demo <span aria-hidden="true">↗</span>
+                    {project.liveLabel || "Live Demo"} <span aria-hidden="true">↗</span>
                   </a>
                 )}
 

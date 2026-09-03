@@ -1,6 +1,6 @@
 export const site = {
   personal: {
-    name: "Kummarikunta Varshith",
+    name: "Varshith Kummarikunta",
     title: "MERN Stack Developer | AI Applications Engineer",
     tagline:
       "Building production-ready full-stack applications with MERN, AI integrations, real-time systems, and immersive user experiences.",
@@ -51,12 +51,12 @@ export const site = {
     titleLines: ["Creating digital experiences", "that feel alive."],
     statistics: [
       {
-        value: "3+",
-        label: "Production Projects",
+        value: "3",
+        label: "Featured Projects",
       },
       {
-        value: "5+",
-        label: "Deployed Applications",
+        value: "MERN",
+        label: "Primary Stack",
       },
       {
         value: "2025",
@@ -107,8 +107,6 @@ export const site = {
           "Context API",
           "Tailwind CSS",
           "GSAP",
-          "Three.js",
-          "React Three Fiber",
           "Vite",
         ],
       },
@@ -142,7 +140,6 @@ export const site = {
         technologies: [
           "Git",
           "GitHub",
-          "VS Code",
           "Postman",
           "Figma",
           "Cloudinary",
@@ -155,9 +152,51 @@ export const site = {
   projects: [
     {
       number: "01",
+      title: "Chess Game — Real-Time Multiplayer Platform",
+      description:
+        "Full-stack real-time multiplayer chess platform featuring server-side move validation with chess.js, Socket.IO room synchronization, 5-minute blitz chess clocks, and a mathematical FIDE Elo rating engine (K=32) backed by MongoDB Atlas and deployed across Vercel and Render.",
+      technologies: [
+        "React",
+        "Node.js",
+        "Express.js",
+        "MongoDB",
+        "Socket.IO",
+        "chess.js",
+        "Cloudinary",
+        "Redux Toolkit",
+      ],
+      githubUrl: "https://github.com/Varshith-kummarikunta/Chess-Game",
+      liveUrl: "https://play-chess-online.vercel.app",
+      liveLabel: "Live Demo",
+      screenshotPath: "/images/projects/chess-game.webp",
+    },
+
+    {
+      number: "02",
+      title: "Instagram Clone — Full-Stack Social Platform & WebRTC Calling",
+      description:
+        "Production-scale social media platform built with the MERN stack and Socket.IO, featuring WebRTC peer-to-peer audio and video calling with call-state signaling, real-time direct messaging with typing indicators, and Cloudinary media pipelines supporting posts, stories, and video reels.",
+      technologies: [
+        "React",
+        "Node.js",
+        "Express.js",
+        "MongoDB",
+        "Socket.IO",
+        "WebRTC",
+        "Tailwind CSS",
+        "Cloudinary",
+      ],
+      githubUrl: "https://github.com/Varshith-kummarikunta/instagram-clone",
+      liveUrl: "https://instagram-clone-two-ashy.vercel.app",
+      liveLabel: "Live Demo",
+      screenshotPath: "/images/projects/instagram-clone.webp",
+    },
+
+    {
+      number: "03",
       title: "AI Resume Matcher Chrome Extension",
       description:
-        "AI-powered Chrome Extension that analyzes resumes against job descriptions, provides ATS compatibility scores, keyword insights, and AI-generated improvement suggestions.",
+        "Manifest V3 Chrome Extension powered by Groq AI (Llama 3.3 70B) and an Express.js backend. Extracts candidate resume text from PDF buffers in-memory to compute deterministic ATS match scores, keyword gap analyses, interview probabilities, and exportable PDF audit reports.",
       technologies: [
         "React",
         "Node.js",
@@ -170,45 +209,8 @@ export const site = {
         "https://github.com/Varshith-kummarikunta/AI-Resume-Matcher-Chrome-Extension",
       liveUrl:
         "https://drive.google.com/file/d/1TcZ44yC6a6Ku2NlEz5rR5mqnC8XqYRWQ/view",
+      liveLabel: "Video Walkthrough",
       screenshotPath: "/images/projects/resume-matcher.webp",
-    },
-
-    {
-      number: "02",
-      title: "Chess Game — Real-Time Multiplayer Platform",
-      description:
-        "A real-time multiplayer chess platform with Socket.IO gameplay, JWT authentication, matchmaking rooms, profile management, and cloud deployment.",
-      technologies: [
-        "React",
-        "Node.js",
-        "Express.js",
-        "MongoDB",
-        "Socket.IO",
-        "Chess.js",
-        "Cloudinary",
-      ],
-      githubUrl: "https://github.com/Varshith-kummarikunta/Chess-Game",
-      liveUrl: "https://play-chess-online.vercel.app",
-      screenshotPath: "/images/projects/chess-game.webp",
-    },
-
-    {
-      number: "03",
-      title: "Instagram Clone",
-      description:
-        "Production-style social platform featuring JWT authentication, image hosting, posts, likes, comments, and responsive MERN architecture deployed on cloud infrastructure.",
-      technologies: [
-        "React",
-        "Node.js",
-        "Express.js",
-        "MongoDB",
-        "JWT",
-        "Tailwind CSS",
-        "Cloudinary",
-      ],
-      githubUrl: "https://github.com/Varshith-kummarikunta/instagram-clone",
-      liveUrl: "https://instagram-clone-two-ashy.vercel.app",
-      screenshotPath: "/images/projects/instagram-clone.webp",
     },
   ],
   projectsIntro: {
@@ -384,7 +386,7 @@ export const site = {
   },
   footer: {
     copyright: "\u00A9 2026 Beyond Horizon. All rights reserved.",
-    stack: ["React", "Three.js", "GSAP", "Node.js", "MongoDB"],
+    stack: ["React", "Tailwind CSS", "GSAP", "Lenis", "Vite"],
     backToTopLabel: "Back to top",
   },
   loader: { label: "PORTFOLIO 2026" },
