@@ -1,12 +1,71 @@
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { site } from "../../data/site";
+import useBodyLock from "../../hooks/useBodyLock";
 
 export default function Navigation() {
   const [activeSection, setActiveSection] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
-  const reducedMotion = useReducedMotion();
-  const menuTransition = { duration: reducedMotion ? 0 : 0.24, ease: "easeOut" };
+  const [isMounted, setIsMounted] = useState(false);
+  const toggleRef = useRef(null);
+  const navRef = useRef(null);
+  const wasOpenRef = useRef(false);
+
+  useBodyLock(menuOpen);
+
+  const toggleMenu = () => {
+    setMenuOpen((open) => {
+      const next = !open;
+      if (next) setIsMounted(true);
+      return next;
+    });
+  };
+
+  const closeMenu = () => {
+    setMenuOpen(false);
+  };
+
+  useEffect(() => {
+    if (menuOpen && isMounted) {
+      wasOpenRef.current = true;
+      const firstLink = navRef.current?.querySelector("a");
+      firstLink?.focus();
+    } else if (!menuOpen && isMounted) {
+      if (wasOpenRef.current) {
+        wasOpenRef.current = false;
+        toggleRef.current?.focus();
+      }
+      const delay = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 240;
+      const timer = setTimeout(() => setIsMounted(false), delay);
+      return () => clearTimeout(timer);
+    }
+  }, [menuOpen, isMounted]);
+
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+
+    const onKeyDown = (event) => {
+      if (event.key === "Tab") {
+        const focusable = Array.from(
+          navRef.current?.querySelectorAll("a[href], button:not([disabled])") ?? []
+        );
+        if (!focusable.length) return;
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [menuOpen]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -52,6 +111,15 @@ export default function Navigation() {
     return () => window.removeEventListener("keydown", closeOnEscape);
   }, []);
 
+  useEffect(() => {
+    const onResize = () => {
+      if (window.innerWidth >= 768) setMenuOpen(false);
+    };
+
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
   const navigateTo = (id) => (event) => {
     event.preventDefault();
     window.dispatchEvent(new CustomEvent("lenis-scroll-to", { detail: { id } }));
@@ -81,57 +149,49 @@ export default function Navigation() {
         </div>
 
         <button
+          ref={toggleRef}
           className="site-nav__toggle"
           type="button"
           aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
           aria-controls="mobile-navigation"
           aria-expanded={menuOpen}
           data-open={menuOpen || undefined}
-          onClick={() => setMenuOpen((open) => !open)}
+          onClick={toggleMenu}
         >
           <span />
           <span />
         </button>
       </nav>
 
-      <AnimatePresence>
-        {menuOpen && (
-          <>
-            <motion.button
-              className="site-nav__backdrop"
-              type="button"
-              aria-label="Close navigation menu"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: reducedMotion ? 0 : 0.2 }}
-              onClick={() => setMenuOpen(false)}
-            />
-            <motion.nav
-              id="mobile-navigation"
-              className="site-nav__mobile-menu"
-              aria-label="Mobile navigation"
-              initial={{ opacity: 0, y: reducedMotion ? 0 : -16 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: reducedMotion ? 0 : -16 }}
-              transition={menuTransition}
-            >
-              {site.navigation.map(({ label, id }) => (
-                <a
-                  key={id}
-                  className="site-nav__mobile-link"
-                  data-active={activeSection === id || undefined}
-                  href={`#${id}`}
-                  onClick={navigateTo(id)}
-                  aria-current={activeSection === id ? "page" : undefined}
-                >
-                  {label}
-                </a>
-              ))}
-            </motion.nav>
-          </>
-        )}
-      </AnimatePresence>
+      {isMounted && (
+        <>
+          <button
+            className={`site-nav__backdrop ${menuOpen ? "is-open" : "is-closing"}`}
+            type="button"
+            aria-label="Close navigation menu"
+            onClick={closeMenu}
+          />
+          <nav
+            ref={navRef}
+            id="mobile-navigation"
+            className={`site-nav__mobile-menu ${menuOpen ? "is-open" : "is-closing"}`}
+            aria-label="Mobile navigation"
+          >
+            {site.navigation.map(({ label, id }) => (
+              <a
+                key={id}
+                className="site-nav__mobile-link"
+                data-active={activeSection === id || undefined}
+                href={`#${id}`}
+                onClick={navigateTo(id)}
+                aria-current={activeSection === id ? "page" : undefined}
+              >
+                {label}
+              </a>
+            ))}
+          </nav>
+        </>
+      )}
     </header>
   );
 }

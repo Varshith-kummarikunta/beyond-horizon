@@ -64,12 +64,6 @@ function Hero() {
       className="hero"
       aria-labelledby="hero-title"
     >
-      {/* {!reducedMotion && showHeroScene && (
-        <Suspense fallback={null}>
-          <HeroScene />
-        </Suspense>
-      )} */}
-
       <div
         className="hero__background"
         style={{ backgroundImage: `url(${heroMountain})` }}

@@ -15,12 +15,8 @@ export default defineConfig({
             return "react-vendor";
           }
 
-          if (id.includes("/node_modules/framer-motion/") || id.includes("/node_modules/gsap/") || id.includes("/node_modules/lenis/")) {
+          if (id.includes("/node_modules/gsap/") || id.includes("/node_modules/lenis/")) {
             return "motion-vendor";
-          }
-
-          if (id.includes("/node_modules/three/") || id.includes("/node_modules/@react-three/")) {
-            return "three-vendor";
           }
         },
       },
